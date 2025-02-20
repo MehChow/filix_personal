@@ -6,7 +6,8 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
   useDerivedValue,
-  withSpring,
+  Easing,
+  withTiming,
 } from "react-native-reanimated";
 import { cn } from "~/lib/utils";
 
@@ -44,14 +45,17 @@ function Indicator({
 
   const indicator = useAnimatedStyle(() => {
     return {
-      width: withSpring(
+      width: withTiming(
         `${interpolate(
           progress.value,
           [0, 100],
           [1, 100],
           Extrapolation.CLAMP
         )}%`,
-        { overshootClamping: true }
+        {
+          duration: 1500,
+          easing: Easing.bezier(0.4, 0, 0.2, 1), // Faster start, slower end
+        }
       ),
     };
   });

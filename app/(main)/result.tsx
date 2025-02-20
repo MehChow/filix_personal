@@ -5,6 +5,7 @@ import { DMSans400, DMSans700 } from "~/utils/dmsans-text";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import Footer from "~/components/Footer";
 import Button from "~/components/Button";
+import { useEffect, useState } from "react";
 
 type ResultRouteParams = {
   similarity: string;
@@ -30,6 +31,12 @@ const ResultPage = () => {
       return ["bg-[#FF4242]", "text-[#FF4242]"];
     }
   };
+
+  const [progress, setProgres] = useState(0);
+  useEffect(() => {
+    const timer = setTimeout(() => setProgres(similarityValue), 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -63,7 +70,7 @@ const ResultPage = () => {
         </View>
 
         <Progress
-          value={similarityValue}
+          value={progress}
           indicatorClassName={getIndicatorColor()[0]}
         />
       </View>
