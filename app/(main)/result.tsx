@@ -3,9 +3,10 @@ import colors from "~/constants/color";
 import { Progress } from "~/components/ui/progress";
 import { DMSans400, DMSans700 } from "~/utils/dmsans-text";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { useEffect, useState } from "react";
+import { getIndicatorColor } from "~/utils/helper";
 import Footer from "~/components/Footer";
 import Button from "~/components/Button";
-import { useEffect, useState } from "react";
 
 type ResultRouteParams = {
   similarity: string;
@@ -15,28 +16,17 @@ const ResultPage = () => {
   const { similarity } = useLocalSearchParams<ResultRouteParams>();
   const similarityValue = Number(similarity || 0);
 
-  const router = useRouter();
+  // Progress animation
+  const [progress, setProgress] = useState(0);
+  useEffect(() => {
+    const timer = setTimeout(() => setProgress(similarityValue), 500);
+    return () => clearTimeout(timer);
+  }, []);
 
+  const router = useRouter();
   const handleBack = () => {
     router.replace("/(main)/home");
   };
-
-  // Tailwind not allow dynamic className
-  const getIndicatorColor = () => {
-    if (similarityValue >= 90) {
-      return ["bg-[#55BB7F]", "text-[#55BB7F]"];
-    } else if (similarityValue >= 20) {
-      return ["bg-[#F2C94C]", "text-[#F2C94C]"];
-    } else {
-      return ["bg-[#FF4242]", "text-[#FF4242]"];
-    }
-  };
-
-  const [progress, setProgres] = useState(0);
-  useEffect(() => {
-    const timer = setTimeout(() => setProgres(similarityValue), 500);
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
     <View style={styles.container}>
@@ -63,7 +53,7 @@ const ResultPage = () => {
           <DMSans700 style={styles.similarityText}>Similarity</DMSans700>
           <DMSans700
             style={styles.percentageText}
-            className={getIndicatorColor()[1]}
+            className={getIndicatorColor(similarityValue)[1]}
           >
             {similarityValue}%
           </DMSans700>
@@ -71,7 +61,7 @@ const ResultPage = () => {
 
         <Progress
           value={progress}
-          indicatorClassName={getIndicatorColor()[0]}
+          indicatorClassName={getIndicatorColor(similarityValue)[0]}
         />
       </View>
 

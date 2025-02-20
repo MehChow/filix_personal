@@ -1,6 +1,5 @@
-import LogoutButton from "~/components/Logout-button";
-import { View, StyleSheet, ScrollView, Image } from "react-native";
-import { DMSans500, DMSans700 } from "~/utils/dmsans-text";
+import { View, StyleSheet, ScrollView, Image, Pressable } from "react-native";
+import { DMSans700 } from "~/utils/dmsans-text";
 import colors from "~/constants/color";
 import StepSeparator from "~/components/home-steps/Step-separator";
 import StepTwo from "~/components/home-steps/Step-two";
@@ -10,30 +9,51 @@ import StepFour from "~/components/home-steps/Step-four";
 import Button from "~/components/Button";
 import Footer from "~/components/Footer";
 import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
+import { useUserStore } from "~/store/user-store";
 
 const HomePage = () => {
   const router = useRouter();
-
   const handleConfirm = () => {
     router.push("/(main)/comparing");
   };
+
+  // For development use only. Tap the Pen icon 20 times to logout
+  const [devLogoutCount, setDevLogoutCount] = useState(0);
+  const { clearUserInfo } = useUserStore();
+  useEffect(() => {
+    if (devLogoutCount > 10) {
+      clearUserInfo();
+    }
+  }, [devLogoutCount]);
 
   return (
     <ScrollView
       contentContainerStyle={styles.container}
       showsVerticalScrollIndicator={false}
     >
-      {/* <LogoutButton /> */}
-
       {/* Product header */}
       <View style={styles.header}>
         <DMSans700 style={styles.title}>Filix Scan</DMSans700>
         <DMSans700 style={styles.subTitle}>Let's start NIR</DMSans700>
-        <Image
+
+        {/* For development use only, logout test */}
+        <Pressable
+          onPress={() => setDevLogoutCount(devLogoutCount + 1)}
+          style={styles.image}
+        >
+          <Image
+            source={require("~/assets/images/filix_product.png")}
+            resizeMode="contain"
+          />
+        </Pressable>
+
+        {/* Uncomment the code below for demo / production */}
+        {/* <Image
           source={require("~/assets/images/filix_product.png")}
           resizeMode="contain"
           style={styles.image}
-        />
+        /> */}
       </View>
 
       {/* Steps */}
