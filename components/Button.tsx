@@ -1,32 +1,34 @@
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { DimensionValue, StyleSheet, TouchableOpacity } from "react-native";
 import { DMSans700 } from "~/utils/dmsans-text";
 import colors from "~/constants/color";
 
 interface ConfirmButtonProps {
+  buttonText: string;
+  width: DimensionValue;
   onPress: () => void;
 }
 
-const ConfirmButton = ({ onPress }: ConfirmButtonProps) => {
+const Button = ({ onPress, buttonText, width }: ConfirmButtonProps) => {
   return (
     <TouchableOpacity
       activeOpacity={0.85}
-      style={styles.button}
+      style={[styles.button, { width: width }]}
       onPress={onPress}
     >
-      <DMSans700 style={{ color: "white" }}>Confirm</DMSans700>
+      <DMSans700 style={{ color: "white" }}>{buttonText}</DMSans700>
     </TouchableOpacity>
   );
 };
 
-export default ConfirmButton;
+export default Button;
 
 const styles = StyleSheet.create({
   button: {
-    width: "100%",
     backgroundColor: colors.mainGreen,
     height: 53,
     borderRadius: 99,
     justifyContent: "center",
     alignItems: "center",
+    alignSelf: "center",
   },
 });

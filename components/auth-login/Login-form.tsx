@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 import { Link } from "expo-router";
 import colors from "~/constants/color";
 import LoginInputField from "./form/Login-input-field";
-import ConfirmButton from "./form/Confirm-button";
+import Button from "../Button";
 import KeepSignIn from "./form/Keep-sign-in";
 import apiService from "~/api/apiService";
 import useAlert from "~/hooks/use-alert";
@@ -66,7 +66,11 @@ const LoginForm = () => {
       <KeepSignIn />
 
       {/* Confirm Button */}
-      <ConfirmButton onPress={handleSubmit(handleLogin)} />
+      <Button
+        buttonText="Login"
+        width="100%"
+        onPress={handleSubmit(handleLogin)}
+      />
 
       {/* Alert popup, can be placed anywhere*/}
       <AlertPopup

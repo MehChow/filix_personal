@@ -1,11 +1,63 @@
 import LogoutButton from "~/components/Logout-button";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ScrollView, Image } from "react-native";
+import { DMSans500, DMSans700 } from "~/utils/dmsans-text";
+import colors from "~/constants/color";
+import StepSeparator from "~/components/home-steps/Step-separator";
+import StepTwo from "~/components/home-steps/Step-two";
+import StepOne from "~/components/home-steps/Step-one";
+import StepThree from "~/components/home-steps/Step-three";
+import StepFour from "~/components/home-steps/Step-four";
+import Button from "~/components/Button";
+import Footer from "~/components/Footer";
+import { useRouter } from "expo-router";
 
 const HomePage = () => {
+  const router = useRouter();
+
+  const handleConfirm = () => {
+    router.push("/(main)/comparing");
+  };
+
   return (
-    <View style={styles.container}>
-      <LogoutButton />
-    </View>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      showsVerticalScrollIndicator={false}
+    >
+      {/* <LogoutButton /> */}
+
+      {/* Product header */}
+      <View style={styles.header}>
+        <DMSans700 style={styles.title}>Filix Scan</DMSans700>
+        <DMSans700 style={styles.subTitle}>Let's start NIR</DMSans700>
+        <Image
+          source={require("~/assets/images/filix_product.png")}
+          resizeMode="contain"
+          style={styles.image}
+        />
+      </View>
+
+      {/* Steps */}
+      <View style={styles.stepsContainer}>
+        {/* Step 1: CONNECT */}
+        <StepOne />
+        <StepSeparator />
+
+        {/* Step 2: PRODUCT */}
+        <StepTwo />
+        <StepSeparator />
+
+        {/* Step 3: SCAN */}
+        <StepThree />
+        <StepSeparator />
+
+        {/* Step 4: COMPARE */}
+        <StepFour />
+      </View>
+
+      <Button buttonText="Confirm" width="100%" onPress={handleConfirm} />
+
+      <Footer />
+    </ScrollView>
   );
 };
 
@@ -13,8 +65,33 @@ export default HomePage;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
+    paddingTop: 50,
+    paddingBottom: 200,
     justifyContent: "center",
+    alignItems: "center",
+  },
+  header: {
+    position: "relative",
+    width: 375,
+    maxWidth: 375,
+    height: 300,
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 36,
+    color: colors.mainGreen,
+  },
+  subTitle: {
+    fontSize: 16,
+    color: colors.textDefault,
+  },
+  image: {
+    position: "absolute",
+    marginTop: 20,
+    marginLeft: 80,
+  },
+  stepsContainer: {
+    width: "100%",
+    paddingBottom: 20,
   },
 });
