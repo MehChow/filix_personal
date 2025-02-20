@@ -4,6 +4,8 @@ import { ImageBackground, StatusBar, View } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { useUserStore } from "~/store/user-store";
 import useLoadFonts from "~/hooks/use-load-fonts";
+import { PortalHost } from "@rn-primitives/portal";
+import "~/global.css";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -33,15 +35,18 @@ export default function RootLayout() {
   }
 
   return (
-    <View style={{ flex: 1 }}>
-      <StatusBar backgroundColor="transparent" translucent />
+    <>
+      <View style={{ flex: 1 }}>
+        <StatusBar backgroundColor="transparent" translucent />
 
-      <ImageBackground
-        source={require("@/assets/images/background.png")}
-        style={{ flex: 1 }}
-      >
-        <Slot />
-      </ImageBackground>
-    </View>
+        <ImageBackground
+          source={require("~/assets/images/background.png")}
+          style={{ flex: 1 }}
+        >
+          <Slot />
+        </ImageBackground>
+      </View>
+      <PortalHost />
+    </>
   );
 }

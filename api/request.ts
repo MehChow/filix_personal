@@ -1,4 +1,4 @@
-import { useUserStore } from "@/store/user-store";
+import { useUserStore } from "~/store/user-store";
 import axios from "axios";
 import { Alert } from "react-native";
 

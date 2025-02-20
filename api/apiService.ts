@@ -1,6 +1,6 @@
-import { useUserStore } from "@/store/user-store";
+import { useUserStore } from "~/store/user-store";
 import request from "./request";
-import queryString from "query-string";
+import qs from "qs";
 
 const apiService = {
   get: async (url: string, params?: object) => {
@@ -21,7 +21,7 @@ const apiService = {
     return request({
       url,
       method: "POST",
-      data: queryString.stringify({
+      data: qs.stringify({
         ...data,
         token,
       }),

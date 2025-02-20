@@ -5,6 +5,8 @@ import LoginInputField from "./form/Login-input-field";
 import ConfirmButton from "./form/Confirm-button";
 import KeepSignIn from "./form/Keep-sign-in";
 import apiService from "~/api/apiService";
+import useAlert from "~/hooks/use-alert";
+import AlertPopup from "../Alert-popup";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,6 +15,7 @@ import { useUserStore } from "~/store/user-store";
 
 const LoginForm = () => {
   const { setUserInfo } = useUserStore();
+  const { alertOpen, setAlertOpen, alertMessage, createAlert } = useAlert();
 
   const {
     control,
@@ -34,16 +37,18 @@ const LoginForm = () => {
       if (response.ret === 0) {
         // Login successful, set userInfo and isLogin to true
         setUserInfo(response.data);
-      } else if (response.ret === 1) {
-        // Invalid credentials, user not exist
-
-        // TODO: Add toast
-        console.log("User not exist");
       } else {
-        console.log("Unknown error when login?????");
+        // Invalid credentials, user not exist
+        createAlert({
+          title: "Invalid credentials",
+          content: "User not exist",
+        });
       }
     } catch (error) {
-      console.error("Auth Error:", error);
+      createAlert({
+        title: "Network error",
+        content: "Please try again later",
+      });
     }
   };
 
@@ -62,6 +67,13 @@ const LoginForm = () => {
 
       {/* Confirm Button */}
       <ConfirmButton onPress={handleSubmit(handleLogin)} />
+
+      {/* Alert popup, can be placed anywhere*/}
+      <AlertPopup
+        alertOpen={alertOpen}
+        setAlertOpen={setAlertOpen}
+        message={alertMessage}
+      />
     </View>
   );
 };
