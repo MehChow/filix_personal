@@ -1,15 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-interface UserInfo {
-  user_name: string;
-  user_id: number;
-  nickname: string;
-  birthday: number;
-  token: string;
-  sex: number;
-}
+import { UserInfo } from "~/types/user-info";
 
 interface UserState {
   isLogin: boolean;

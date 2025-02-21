@@ -17,9 +17,9 @@ const LoginInputField = ({ control, errors }: LoginInputFieldProps) => {
   const [isVisible, setIsVisible] = useState(false);
 
   return (
-    <View style={{ gap: 8 }}>
+    <View style={styles.container}>
       {/* Email input */}
-      <View style={{ gap: 4 }}>
+      <View style={styles.inputContainer}>
         <DMSans500 style={styles.inputLable}>Email Address</DMSans500>
         <Controller
           name="username"
@@ -89,6 +89,8 @@ const LoginInputField = ({ control, errors }: LoginInputFieldProps) => {
 export default LoginInputField;
 
 const styles = StyleSheet.create({
+  container: { gap: 8 },
+  inputContainer: { gap: 4 },
   inputLable: {
     fontSize: 12,
     color: colors.textSecondary,

@@ -7,7 +7,7 @@ const instance = axios.create({
 });
 
 instance.interceptors.response.use(
-  (response) => response.data,
+  (response) => response,
   (error) => {
     console.log("API Error:", error.response?.data || error.message);
 

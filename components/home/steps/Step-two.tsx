@@ -20,76 +20,84 @@ interface StepTwoProps {
 
 const StepTwo = ({ control, errors }: StepTwoProps) => {
   return (
-    <View style={styles.step}>
+    <View style={styles.stepContainer}>
       <DMSans700 style={styles.stepTitle}>➁ PRODUCT</DMSans700>
-
-      {/* Category field */}
-      <Controller
-        name="category"
-        control={control}
-        rules={{ required: true }}
-        render={({ field: { onChange } }) => (
-          <Select onValueChange={onChange}>
-            <DMSans500 style={styles.selectLabel}>Category</DMSans500>
-            <SelectTrigger className="w-full">
-              <SelectValue
-                placeholder="Please select"
-                style={styles.placeholderText}
-              />
-            </SelectTrigger>
-            <SelectContent insets={{ left: 20, right: 20 }} className="w-full">
-              <SelectGroup>
-                {categoryOptions.map((option) => (
-                  <SelectItem
-                    key={option.value}
-                    label={option.label}
-                    value={option.value}
-                  />
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+      <View style={styles.selectContainer}>
+        {/* Category field */}
+        <Controller
+          name="category"
+          control={control}
+          rules={{ required: true }}
+          render={({ field: { onChange } }) => (
+            <Select onValueChange={onChange}>
+              <DMSans500 style={styles.selectLabel}>Category</DMSans500>
+              <SelectTrigger className="w-full">
+                <SelectValue
+                  placeholder="Please select"
+                  style={styles.placeholderText}
+                />
+              </SelectTrigger>
+              <SelectContent
+                insets={{ left: 20, right: 20 }}
+                className="w-full"
+              >
+                <SelectGroup>
+                  {categoryOptions.map((option) => (
+                    <SelectItem
+                      key={option.value}
+                      label={option.label}
+                      value={option.value}
+                    />
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          )}
+        />
+        {errors.category && (
+          <DMSans400 style={styles.errorText}>
+            {errors.category && errors.category.message}
+          </DMSans400>
         )}
-      />
-      {errors.category && (
-        <DMSans400 style={styles.errorText}>
-          {errors.category && errors.category.message}
-        </DMSans400>
-      )}
-
-      {/* Product name field */}
-      <Controller
-        name="productName"
-        control={control}
-        rules={{ required: true }}
-        render={({ field: { onChange } }) => (
-          <Select onValueChange={onChange}>
-            <DMSans500 style={styles.selectLabel}>Product Name</DMSans500>
-            <SelectTrigger className="w-full ">
-              <SelectValue
-                placeholder="Please select"
-                style={styles.placeholderText}
-              />
-            </SelectTrigger>
-            <SelectContent insets={{ left: 20, right: 20 }} className="w-full">
-              <SelectGroup>
-                {productOptions.map((option) => (
-                  <SelectItem
-                    key={option.value}
-                    label={option.label}
-                    value={option.value}
-                  />
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+      </View>
+      <View style={{ gap: 4 }}>
+        {/* Product name field */}
+        <Controller
+          name="productName"
+          control={control}
+          rules={{ required: true }}
+          render={({ field: { onChange } }) => (
+            <Select onValueChange={onChange}>
+              <DMSans500 style={styles.selectLabel}>Product Name</DMSans500>
+              <SelectTrigger className="w-full ">
+                <SelectValue
+                  placeholder="Please select"
+                  style={styles.placeholderText}
+                />
+              </SelectTrigger>
+              <SelectContent
+                insets={{ left: 20, right: 20 }}
+                className="w-full"
+              >
+                <SelectGroup>
+                  {productOptions.map((option) => (
+                    <SelectItem
+                      key={option.value}
+                      label={option.label}
+                      value={option.value}
+                    />
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          )}
+        />
+        {errors.productName && (
+          <DMSans400 style={styles.errorText}>
+            {errors.productName && errors.productName.message}
+          </DMSans400>
         )}
-      />
-      {errors.productName && (
-        <DMSans400 style={styles.errorText}>
-          {errors.productName && errors.productName.message}
-        </DMSans400>
-      )}
+      </View>
     </View>
   );
 };
@@ -97,9 +105,8 @@ const StepTwo = ({ control, errors }: StepTwoProps) => {
 export default StepTwo;
 
 const styles = StyleSheet.create({
-  step: {
-    gap: 12,
-  },
+  stepContainer: { gap: 12 },
+  selectContainer: { gap: 4 },
   stepTitle: {
     fontSize: 16,
     color: colors.mainGreen,

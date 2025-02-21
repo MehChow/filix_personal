@@ -12,6 +12,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema, loginSchema } from "~/schema/login-schema";
 import { useUserStore } from "~/store/user-store";
+import { ApiResponse } from "~/types/api-response";
+import { UserInfo } from "~/types/user-info";
+import { AxiosResponse } from "axios";
 
 const LoginForm = () => {
   const { setUserInfo } = useUserStore();
@@ -32,11 +35,13 @@ const LoginForm = () => {
   const handleLogin = async (data: LoginSchema) => {
     try {
       const endpoint = "/api/user.user/login";
-      const response = await apiService.post(endpoint, data);
+      const response = (await apiService.post(endpoint, data)) as AxiosResponse<
+        ApiResponse<UserInfo>
+      >;
 
-      if (response.ret === 0) {
+      if (response.data.ret === 0) {
         // Login successful, set userInfo and isLogin to true
-        setUserInfo(response.data);
+        setUserInfo(response.data.data);
       } else {
         // Invalid credentials, user not exist
         createAlert({
