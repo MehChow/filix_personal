@@ -1,0 +1,120 @@
+import { StyleSheet, View } from "react-native";
+import { DMSans400, DMSans500, DMSans700 } from "~/utils/dmsans-text";
+import { Control, Controller, FieldErrors } from "react-hook-form";
+import { SelectSchema } from "~/schema/select-schema";
+import { categoryOptions, productOptions } from "~/constants/option";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
+import colors from "~/constants/color";
+
+interface StepTwoProps {
+  control: Control<SelectSchema>;
+  errors: FieldErrors<SelectSchema>;
+}
+
+const StepTwo = ({ control, errors }: StepTwoProps) => {
+  return (
+    <View style={styles.step}>
+      <DMSans700 style={styles.stepTitle}>➁ PRODUCT</DMSans700>
+
+      {/* Category field */}
+      <Controller
+        name="category"
+        control={control}
+        rules={{ required: true }}
+        render={({ field: { onChange } }) => (
+          <Select onValueChange={onChange}>
+            <DMSans500 style={styles.selectLabel}>Category</DMSans500>
+            <SelectTrigger className="w-full">
+              <SelectValue
+                placeholder="Please select"
+                style={styles.placeholderText}
+              />
+            </SelectTrigger>
+            <SelectContent insets={{ left: 20, right: 20 }} className="w-full">
+              <SelectGroup>
+                {categoryOptions.map((option) => (
+                  <SelectItem
+                    key={option.value}
+                    label={option.label}
+                    value={option.value}
+                  />
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        )}
+      />
+      {errors.category && (
+        <DMSans400 style={styles.errorText}>
+          {errors.category && errors.category.message}
+        </DMSans400>
+      )}
+
+      {/* Product name field */}
+      <Controller
+        name="productName"
+        control={control}
+        rules={{ required: true }}
+        render={({ field: { onChange } }) => (
+          <Select onValueChange={onChange}>
+            <DMSans500 style={styles.selectLabel}>Product Name</DMSans500>
+            <SelectTrigger className="w-full ">
+              <SelectValue
+                placeholder="Please select"
+                style={styles.placeholderText}
+              />
+            </SelectTrigger>
+            <SelectContent insets={{ left: 20, right: 20 }} className="w-full">
+              <SelectGroup>
+                {productOptions.map((option) => (
+                  <SelectItem
+                    key={option.value}
+                    label={option.label}
+                    value={option.value}
+                  />
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        )}
+      />
+      {errors.productName && (
+        <DMSans400 style={styles.errorText}>
+          {errors.productName && errors.productName.message}
+        </DMSans400>
+      )}
+    </View>
+  );
+};
+
+export default StepTwo;
+
+const styles = StyleSheet.create({
+  step: {
+    gap: 12,
+  },
+  stepTitle: {
+    fontSize: 16,
+    color: colors.mainGreen,
+  },
+  placeholderText: {
+    fontSize: 16,
+    color: colors.textSecondary,
+  },
+  selectLabel: {
+    fontSize: 12,
+    color: colors.textSecondary,
+    marginBottom: 4,
+  },
+  errorText: {
+    fontSize: 12,
+    color: "red",
+  },
+});

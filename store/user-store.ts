@@ -19,6 +19,7 @@ interface UserState {
 }
 
 export const useUserStore = create<UserState>()(
+  // persist user info and login status
   persist(
     (set) => ({
       isLogin: false,

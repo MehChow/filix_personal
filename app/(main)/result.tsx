@@ -3,9 +3,10 @@ import colors from "~/constants/color";
 import { Progress } from "~/components/ui/progress";
 import { DMSans400, DMSans700 } from "~/utils/dmsans-text";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
 import Footer from "~/components/Footer";
 import Button from "~/components/Button";
+import { useSelectStore } from "~/store/select-store";
+import useProgressBar from "~/hooks/use-progress-bar";
 
 type ResultRouteParams = {
   similarity: string;
@@ -27,17 +28,19 @@ const ResultPage = () => {
     }
   };
 
+  // Access user's selected data
+  const { selectedData, clearSelectOption } = useSelectStore();
+
+  // Get indicator color and text color of the progress bar
   const [indicatorColor, textColor] = getIndicatorColor();
 
-  // Progress animation
-  const [progress, setProgress] = useState(0);
-  useEffect(() => {
-    const timer = setTimeout(() => setProgress(similarityValue), 500);
-    return () => clearTimeout(timer);
-  }, []);
+  // Progress Bar
+  const { progress } = useProgressBar(similarityValue);
 
   const router = useRouter();
+  // Reset selected data state, and return home
   const handleBack = () => {
+    clearSelectOption();
     router.replace("/(main)/home");
   };
 
@@ -49,13 +52,15 @@ const ResultPage = () => {
       <View style={styles.productContainer}>
         <View style={styles.productDetails}>
           <DMSans400 style={styles.detailLabel}>Product Type</DMSans400>
-          <DMSans700 style={styles.detailContent}>Agarwood</DMSans700>
+          <DMSans700 style={styles.detailContent}>
+            {selectedData.category}
+          </DMSans700>
         </View>
 
         <View style={styles.productDetails}>
           <DMSans400 style={styles.detailLabel}>Product Name</DMSans400>
           <DMSans700 style={styles.detailContent}>
-            A grade NYCX powder
+            {selectedData.productName}
           </DMSans700>
         </View>
       </View>

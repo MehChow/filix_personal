@@ -1,9 +1,9 @@
 import { useRouter } from "expo-router";
 import { Image, StyleSheet, View } from "react-native";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
+import { DMSans700 } from "~/utils/dmsans-text";
 import Footer from "~/components/Footer";
 import colors from "~/constants/color";
-import { DMSans700 } from "~/utils/dmsans-text";
 
 const ComparingPage = () => {
   const router = useRouter();

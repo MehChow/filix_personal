@@ -1,31 +1,42 @@
-import { View, StyleSheet, ScrollView, Image, Pressable } from "react-native";
-import { DMSans700 } from "~/utils/dmsans-text";
-import colors from "~/constants/color";
-import StepSeparator from "~/components/home-steps/Step-separator";
-import StepTwo from "~/components/home-steps/Step-two";
-import StepOne from "~/components/home-steps/Step-one";
-import StepThree from "~/components/home-steps/Step-three";
-import StepFour from "~/components/home-steps/Step-four";
+import { View, StyleSheet, ScrollView } from "react-native";
+import { useRouter } from "expo-router";
+import StepSeparator from "~/components/home/steps/Step-separator";
+import StepTwo from "~/components/home/steps/Step-two";
+import StepOne from "~/components/home/steps/Step-one";
+import StepThree from "~/components/home/steps/Step-three";
+import StepFour from "~/components/home/steps/Step-four";
 import Button from "~/components/Button";
 import Footer from "~/components/Footer";
-import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
-import { useUserStore } from "~/store/user-store";
+import HomeHeader from "~/components/home/header";
+
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SelectSchema, selectSchema } from "~/schema/select-schema";
+import { useSelectStore } from "~/store/select-store";
 
 const HomePage = () => {
   const router = useRouter();
+
+  const { setSelectOption } = useSelectStore();
+
   const handleConfirm = () => {
+    const selectedOptions = {
+      category: getValues().category.label,
+      productName: getValues().productName.label,
+    };
+    setSelectOption(selectedOptions);
+
     router.replace("/(main)/comparing");
   };
 
-  // For development use only. Tap the Pen icon 20 times to logout
-  const [devLogoutCount, setDevLogoutCount] = useState(0);
-  const { clearUserInfo } = useUserStore();
-  useEffect(() => {
-    if (devLogoutCount > 10) {
-      clearUserInfo();
-    }
-  }, [devLogoutCount]);
+  const {
+    getValues,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SelectSchema>({
+    resolver: zodResolver(selectSchema),
+  });
 
   return (
     <ScrollView
@@ -33,28 +44,7 @@ const HomePage = () => {
       showsVerticalScrollIndicator={false}
     >
       {/* Product header */}
-      <View style={styles.header}>
-        <DMSans700 style={styles.title}>Filix Scan</DMSans700>
-        <DMSans700 style={styles.subTitle}>Let's start NIR</DMSans700>
-
-        {/* For development use only, logout test */}
-        <Pressable
-          onPress={() => setDevLogoutCount(devLogoutCount + 1)}
-          style={styles.image}
-        >
-          <Image
-            source={require("~/assets/images/filix_product.png")}
-            resizeMode="contain"
-          />
-        </Pressable>
-
-        {/* Uncomment the code below for demo / production */}
-        {/* <Image
-          source={require("~/assets/images/filix_product.png")}
-          resizeMode="contain"
-          style={styles.image}
-        /> */}
-      </View>
+      <HomeHeader />
 
       {/* Steps */}
       <View style={styles.stepsContainer}>
@@ -63,7 +53,7 @@ const HomePage = () => {
         <StepSeparator />
 
         {/* Step 2: PRODUCT */}
-        <StepTwo />
+        <StepTwo control={control} errors={errors} />
         <StepSeparator />
 
         {/* Step 3: SCAN */}
@@ -74,7 +64,11 @@ const HomePage = () => {
         <StepFour />
       </View>
 
-      <Button buttonText="Confirm" width="100%" onPress={handleConfirm} />
+      <Button
+        buttonText="Confirm"
+        width="100%"
+        onPress={handleSubmit(handleConfirm)}
+      />
 
       <Footer />
     </ScrollView>
@@ -89,26 +83,6 @@ const styles = StyleSheet.create({
     paddingBottom: 200,
     justifyContent: "center",
     alignItems: "center",
-  },
-  header: {
-    position: "relative",
-    width: 375,
-    maxWidth: 375,
-    height: 300,
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 36,
-    color: colors.mainGreen,
-  },
-  subTitle: {
-    fontSize: 16,
-    color: colors.textDefault,
-  },
-  image: {
-    position: "absolute",
-    marginTop: 20,
-    marginLeft: 80,
   },
   stepsContainer: {
     width: "100%",
