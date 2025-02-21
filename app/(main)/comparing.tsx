@@ -31,7 +31,7 @@ const ComparingPage = () => {
         onAnimationComplete={() =>
           router.replace({
             pathname: "/(main)/result",
-            params: { similarity: 10 },
+            params: { similarity: 46.7 },
           })
         }
         backgroundColor="rgba(186, 186, 186, 0.5)"
