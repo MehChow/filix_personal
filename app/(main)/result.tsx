@@ -4,7 +4,6 @@ import { Progress } from "~/components/ui/progress";
 import { DMSans400, DMSans700 } from "~/utils/dmsans-text";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { getIndicatorColor } from "~/utils/helper";
 import Footer from "~/components/Footer";
 import Button from "~/components/Button";
 
@@ -15,6 +14,20 @@ type ResultRouteParams = {
 const ResultPage = () => {
   const { similarity } = useLocalSearchParams<ResultRouteParams>();
   const similarityValue = Number(similarity || 0);
+
+  // If this function moved to utils file, the color somehow
+  // cannot be passed to the Progress bar
+  const getIndicatorColor = () => {
+    if (similarityValue >= 90) {
+      return ["bg-[#55BB7F]", "text-[#55BB7F]"];
+    } else if (similarityValue >= 20) {
+      return ["bg-[#F2C94C]", "text-[#F2C94C]"];
+    } else {
+      return ["bg-[#FF4242]", "text-[#FF4242]"];
+    }
+  };
+
+  const [indicatorColor, textColor] = getIndicatorColor();
 
   // Progress animation
   const [progress, setProgress] = useState(0);
@@ -51,18 +64,12 @@ const ResultPage = () => {
       <View style={styles.similarityContainer}>
         <View style={styles.metricsContainer}>
           <DMSans700 style={styles.similarityText}>Similarity</DMSans700>
-          <DMSans700
-            style={styles.percentageText}
-            className={getIndicatorColor(similarityValue)[1]}
-          >
+          <DMSans700 style={styles.percentageText} className={`${textColor}`}>
             {similarityValue}%
           </DMSans700>
         </View>
 
-        <Progress
-          value={progress}
-          indicatorClassName={getIndicatorColor(similarityValue)[0]}
-        />
+        <Progress value={progress} indicatorClassName={`${indicatorColor}`} />
       </View>
 
       <Button buttonText="Back to Homepage" width="60%" onPress={handleBack} />

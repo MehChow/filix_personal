@@ -15,7 +15,7 @@ import { useUserStore } from "~/store/user-store";
 const HomePage = () => {
   const router = useRouter();
   const handleConfirm = () => {
-    router.push("/(main)/comparing");
+    router.replace("/(main)/comparing");
   };
 
   // For development use only. Tap the Pen icon 20 times to logout

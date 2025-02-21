@@ -29,9 +29,9 @@ const ComparingPage = () => {
         rotation={180}
         tintColor={colors.mainGreen}
         onAnimationComplete={() =>
-          router.push({
+          router.replace({
             pathname: "/(main)/result",
-            params: { similarity: 99 },
+            params: { similarity: 10 },
           })
         }
         backgroundColor="rgba(186, 186, 186, 0.5)"
