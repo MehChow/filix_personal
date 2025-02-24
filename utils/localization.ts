@@ -10,6 +10,28 @@ const en = {
     no_account: "Don't have an account?",
     register: "Register Now!",
   },
+  home: {
+    step_one: {
+      title: "➀ CONNECT",
+      description: "Confirm mobile phone is connected to LinkSquareNIR Wi-Fi",
+    },
+    step_two: {
+      title: "➁ PRODUCT",
+      category_label: "Category",
+      product_label: "Product Name",
+    },
+    step_three: {
+      title: "➂ SCAN",
+      description:
+        "Place the NIR scanner on the product and press the button on NIR scanner. Wait until the light of button stop blinking.",
+      important_notes: "Important notes:",
+      notes: `1. Scanning will last around 1 minute{"\n"}2. Make sure NIR scanner is completely placed on the product when scanning`,
+    },
+    step_four: {
+      title: "➃ COMPARE",
+      description: "Please confirm the above steps are completed in order.",
+    },
+  },
 };
 
 const cn = {

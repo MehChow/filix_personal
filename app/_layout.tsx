@@ -1,6 +1,6 @@
 import { Slot, useRouter } from "expo-router";
 import { useEffect } from "react";
-import { ImageBackground, StatusBar, View } from "react-native";
+import { ImageBackground, StatusBar, View, NativeModules } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { useUserStore } from "~/store/user-store";
 import useLoadFonts from "~/hooks/use-load-fonts";
@@ -15,11 +15,14 @@ export default function RootLayout() {
   const { isLogin } = useUserStore();
   const { fontsLoaded } = useLoadFonts();
 
+  const { LinkSquareModule } = NativeModules;
+
   useEffect(() => {
     if (fontsLoaded) {
       // Ensure auth is checked before navigating
       if (isLogin === true) {
         router.replace("/(main)/home");
+        console.log(LinkSquareModule.getMyText());
       } else if (isLogin === false) {
         router.replace("/(auth)/login");
       }
