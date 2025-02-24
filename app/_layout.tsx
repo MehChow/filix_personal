@@ -1,11 +1,18 @@
 import { Slot, useRouter } from "expo-router";
 import { useEffect } from "react";
-import { ImageBackground, StatusBar, View, NativeModules } from "react-native";
+import {
+  ImageBackground,
+  StatusBar,
+  View,
+  NativeModules,
+  NativeEventEmitter,
+} from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { useUserStore } from "~/store/user-store";
 import useLoadFonts from "~/hooks/use-load-fonts";
 import { PortalHost } from "@rn-primitives/portal";
 import "~/global.css";
+import { askForLocationPermission } from "~/utils/helper";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -16,19 +23,53 @@ export default function RootLayout() {
   const { fontsLoaded } = useLoadFonts();
 
   const { LinkSquareModule } = NativeModules;
+  const eventEmitter = new NativeEventEmitter(LinkSquareModule);
+
+  useEffect(() => {
+    // Subscribe to events emitted from the native module
+    const connectionEventListener = eventEmitter.addListener(
+      "CONNECTED",
+      (message) => {
+        console.log("Connection Successful:", message);
+      }
+    );
+
+    const onScanCompleteEventListener = eventEmitter.addListener(
+      "onScanComplete",
+      (frames) => {
+        console.log("Scanned Frames:", frames);
+      }
+    );
+
+    const errorEventListener = eventEmitter.addListener(
+      "onError",
+      (errorMessage) => {
+        console.error("Connection Error:", errorMessage);
+      }
+    );
+
+    return () => {
+      connectionEventListener.remove();
+      onScanCompleteEventListener.remove();
+      errorEventListener.remove();
+    };
+  }, []);
 
   useEffect(() => {
     if (fontsLoaded) {
       // Ensure auth is checked before navigating
+
       if (isLogin === true) {
+        // Start connection
+
         router.replace("/(main)/home");
-        console.log(LinkSquareModule.getMyText());
       } else if (isLogin === false) {
         router.replace("/(auth)/login");
       }
 
       // After landing the app, hide the splash screen
       SplashScreen.hide;
+      askForLocationPermission();
     }
   }, [isLogin, fontsLoaded]);
 

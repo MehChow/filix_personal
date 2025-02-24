@@ -61,6 +61,10 @@ public class LinkSquareModule implements LinkSquareAPI.LinkSquareAPIListener {
         }).start();
     }
 
+    public boolean isConnected() {
+        return linkSquareAPI.IsConnected();
+    }
+
     public void scan(int scanDuration, int scanInterval) {
         new Thread(() -> {
             List<LSFrame> frames = new ArrayList<>();

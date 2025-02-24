@@ -71,6 +71,11 @@ public class LinkSquareReactModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public boolean isConnected() {
+        return linkSquareModule.isConnected();
+    }
+
+    @ReactMethod
     public void scan(int scanDuration, int scanInterval) {
         linkSquareModule.scan(scanDuration, scanInterval);
     }
@@ -78,11 +83,5 @@ public class LinkSquareReactModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void close() {
         linkSquareModule.close();
-    }
-
-    // WORKING!!!!
-    @ReactMethod
-    public String getMyText() {
-        return "Yo Hello there!!!!";
     }
 }

@@ -1,4 +1,4 @@
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, NativeModules } from "react-native";
 import { useRouter } from "expo-router";
 import StepSeparator from "~/components/home/steps/Step-separator";
 import StepTwo from "~/components/home/steps/Step-two";
@@ -13,6 +13,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SelectSchema, selectSchema } from "~/schema/select-schema";
 import { useSelectStore } from "~/store/select-store";
+import useCheckWifi from "~/hooks/use-check-wifi";
+import { useEffect } from "react";
 
 const HomePage = () => {
   const router = useRouter();
@@ -37,6 +39,21 @@ const HomePage = () => {
   } = useForm<SelectSchema>({
     resolver: zodResolver(selectSchema),
   });
+
+  const detectedWifi = useCheckWifi("LS");
+  const { LinkSquareModule } = NativeModules;
+
+  // Keep tracking whether use have connected to LS WiFi
+  // If yes, initialize LinkSquare module and connect to the device
+  useEffect(() => {
+    if (detectedWifi) {
+      console.log(
+        "Connected to LS WiFi!! Now try to connect the NIR device..."
+      );
+      LinkSquareModule.initialize();
+      LinkSquareModule.connect("192.168.1.1", 18630);
+    }
+  }, [detectedWifi]);
 
   return (
     <ScrollView
