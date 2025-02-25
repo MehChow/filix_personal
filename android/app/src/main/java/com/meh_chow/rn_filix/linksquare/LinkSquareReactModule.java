@@ -34,7 +34,19 @@ public class LinkSquareReactModule extends ReactContextBaseJavaModule {
                     frameMap.putInt("frameNo", frame.frameNo);
                     frameMap.putInt("lightSource", frame.lightSource);
                     frameMap.putInt("length", frame.length);
-                    // Add raw_data and data arrays as needed
+
+                    WritableArray dataArray = Arguments.createArray();
+                    for (float dataPoint : frame.data) {
+                        dataArray.pushDouble(dataPoint); // Store each float as double
+                    }
+                    frameMap.putArray("data", dataArray);
+
+                    WritableArray rawDataArray = Arguments.createArray();
+                    for (float rawDataPoint : frame.raw_data) {
+                        rawDataArray.pushDouble(rawDataPoint); // Store each float as double
+                    }
+                    frameMap.putArray("raw_data", rawDataArray);
+                    
                     framesArray.pushMap(frameMap);
                 }
                 sendEvent("onScanComplete", framesArray);

@@ -16,6 +16,7 @@ import { useUserStore } from "~/store/user-store";
 import { ApiResponse } from "~/types/api-response";
 import { UserInfo } from "~/types/user-info";
 import { AxiosResponse } from "axios";
+import { useMutation } from "@tanstack/react-query";
 
 const LoginForm = () => {
   const { setUserInfo } = useUserStore();
@@ -36,35 +37,38 @@ const LoginForm = () => {
     },
   });
 
-  const handleLogin = async (data: LoginSchema) => {
-    try {
+  const mutation = useMutation({
+    mutationFn: async (data: LoginSchema) => {
       const endpoint = "/api/user.user/login";
       const response = (await apiService.post(endpoint, data)) as AxiosResponse<
         ApiResponse<UserInfo>
       >;
-
-      // Login successful
-      if (response.data.ret === 0) {
-        // If keep sign in is checked, set user info and isLogin in Zustand (persisted)
+      return response.data;
+    },
+    onSuccess: (data) => {
+      if (data.ret === 0) {
         if (keepSignIn) {
-          setUserInfo(response.data.data);
+          setUserInfo(data.data);
         }
 
-        // If not checked, just redirect to home screen
         router.replace("/(main)/home");
       } else {
-        // Invalid credentials, user not exist
         createAlert({
           title: "Invalid credentials",
           content: "User not exist",
         });
       }
-    } catch (error) {
+    },
+    onError: () => {
       createAlert({
         title: "Network error",
         content: "Please try again later",
       });
-    }
+    },
+  });
+
+  const handleLogin = (data: LoginSchema) => {
+    mutation.mutate(data);
   };
 
   return (
@@ -82,9 +86,10 @@ const LoginForm = () => {
 
       {/* Confirm Button */}
       <Button
-        buttonText="Login"
+        buttonText={mutation.isPending ? "Logging in..." : "Confirm"}
         width="100%"
         onPress={handleSubmit(handleLogin)}
+        disabled={mutation.isPending}
       />
 
       {/* Alert popup, can be placed anywhere*/}

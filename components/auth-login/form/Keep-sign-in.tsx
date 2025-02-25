@@ -11,7 +11,11 @@ interface KeepSignInProps {
 const KeepSignIn = ({ checked, onCheckedChange }: KeepSignInProps) => {
   return (
     <View style={styles.container}>
-      <Checkbox checked={checked} onCheckedChange={onCheckedChange} />
+      <Checkbox
+        checked={checked}
+        onCheckedChange={onCheckedChange}
+        className={checked ? "" : "border border-primary"}
+      />
       <DMSans400 style={{ color: colors.grey1 }}>Keep me signed in</DMSans400>
     </View>
   );
