@@ -87,7 +87,7 @@ public class LinkSquareModule implements LinkSquareAPI.LinkSquareAPIListener {
         switch (eventType) {
             case Button:
                 if (callback != null) callback.onEvent("BUTTON_PRESSED", "Scan triggered.");
-                scan(3, 3); // Example: Trigger scan on button press
+                scan(3, 3);
                 break;
             case Timeout:
                 if (callback != null) callback.onError("Network timeout.");

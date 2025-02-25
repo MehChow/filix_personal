@@ -21,7 +21,7 @@ extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
   }
 }
 
-rootProject.name = 'rn_filix'
+rootProject.name = 'Filix MedTech'
 
 dependencyResolutionManagement {
   versionCatalogs {

@@ -5,15 +5,22 @@ import colors from "~/constants/color";
 interface ConfirmButtonProps {
   buttonText: string;
   width: DimensionValue;
+  disabled?: boolean;
   onPress: () => void;
 }
 
-const Button = ({ onPress, buttonText, width }: ConfirmButtonProps) => {
+const Button = ({
+  onPress,
+  buttonText,
+  width,
+  disabled,
+}: ConfirmButtonProps) => {
   return (
     <TouchableOpacity
       activeOpacity={0.85}
       style={[styles.button, { width: width }]}
       onPress={onPress}
+      disabled={disabled}
     >
       <DMSans700 style={{ color: "white" }}>{buttonText}</DMSans700>
     </TouchableOpacity>

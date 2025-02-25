@@ -13,11 +13,14 @@ import useLoadFonts from "~/hooks/use-load-fonts";
 import { PortalHost } from "@rn-primitives/portal";
 import "~/global.css";
 import { askForLocationPermission } from "~/utils/helper";
+import LoadingIndicator from "~/components/Loading-indicator";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const router = useRouter();
+  const queryClient = new QueryClient();
 
   const { isLogin } = useUserStore();
   const { fontsLoaded } = useLoadFonts();
@@ -64,20 +67,20 @@ export default function RootLayout() {
       } else if (isLogin === false) {
         router.replace("/(auth)/login");
       }
-
-      // After landing the app, hide the splash screen
-      SplashScreen.hide;
-      askForLocationPermission();
     }
+
+    // After landing the app, hide the splash screen
+    askForLocationPermission();
+    SplashScreen.hideAsync();
   }, [isLogin, fontsLoaded]);
 
   // If fonts are not loaded, show the splash screen
   if (!fontsLoaded) {
-    return null;
+    return <LoadingIndicator />;
   }
 
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <View style={{ flex: 1 }}>
         <StatusBar backgroundColor="transparent" translucent />
 
@@ -89,6 +92,6 @@ export default function RootLayout() {
         </ImageBackground>
       </View>
       <PortalHost />
-    </>
+    </QueryClientProvider>
   );
 }
