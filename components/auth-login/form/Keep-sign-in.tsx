@@ -1,21 +1,17 @@
 import { StyleSheet, View } from "react-native";
 import { DMSans400 } from "~/utils/dmsans-text";
-import BouncyCheckbox from "react-native-bouncy-checkbox";
 import colors from "~/constants/color";
+import { Checkbox } from "~/components/ui/checkbox";
 
-const KeepSignIn = () => {
+interface KeepSignInProps {
+  checked: boolean;
+  onCheckedChange: (checked: boolean) => void;
+}
+
+const KeepSignIn = ({ checked, onCheckedChange }: KeepSignInProps) => {
   return (
     <View style={styles.container}>
-      <BouncyCheckbox
-        size={20}
-        fillColor={colors.primary1}
-        unFillColor="#FFFFFF"
-        disableText
-        innerIconStyle={{ borderWidth: 1, borderColor: "black" }}
-        onPress={(isChecked: boolean) => {
-          console.log(isChecked);
-        }}
-      />
+      <Checkbox checked={checked} onCheckedChange={onCheckedChange} />
       <DMSans400 style={{ color: colors.grey1 }}>Keep me signed in</DMSans400>
     </View>
   );

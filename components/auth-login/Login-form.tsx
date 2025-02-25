@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import colors from "~/constants/color";
 import LoginInputField from "./form/Login-input-field";
 import Button from "../Button";
@@ -7,6 +7,7 @@ import KeepSignIn from "./form/Keep-sign-in";
 import apiService from "~/api/apiService";
 import useAlert from "~/hooks/use-alert";
 import AlertPopup from "../Alert-popup";
+import useCheckBox from "~/hooks/use-check-box";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,6 +20,9 @@ import { AxiosResponse } from "axios";
 const LoginForm = () => {
   const { setUserInfo } = useUserStore();
   const { alertOpen, setAlertOpen, alertMessage, createAlert } = useAlert();
+  const { keepSignIn, onCheckedChange } = useCheckBox();
+
+  const router = useRouter();
 
   const {
     control,
@@ -39,9 +43,15 @@ const LoginForm = () => {
         ApiResponse<UserInfo>
       >;
 
+      // Login successful
       if (response.data.ret === 0) {
-        // Login successful, set userInfo and isLogin to true
-        setUserInfo(response.data.data);
+        // If keep sign in is checked, set user info and isLogin in Zustand (persisted)
+        if (keepSignIn) {
+          setUserInfo(response.data.data);
+        }
+
+        // If not checked, just redirect to home screen
+        router.replace("/(main)/home");
       } else {
         // Invalid credentials, user not exist
         createAlert({
@@ -68,7 +78,7 @@ const LoginForm = () => {
       </Link>
 
       {/* Keep me signed in checkbox */}
-      <KeepSignIn />
+      <KeepSignIn checked={keepSignIn} onCheckedChange={onCheckedChange} />
 
       {/* Confirm Button */}
       <Button
