@@ -26,7 +26,6 @@ public class LinkSquareModule implements LinkSquareAPI.LinkSquareAPIListener {
 
     private LinkSquareModule() {
         linkSquareAPI = LinkSquareAPI.getInstance();
-        linkSquareAPI.SetEventListener(this);
     }
 
     public static LinkSquareModule getInstance() {
@@ -42,6 +41,7 @@ public class LinkSquareModule implements LinkSquareAPI.LinkSquareAPIListener {
 
     public void initialize() {
         linkSquareAPI.Initialize();
+        linkSquareAPI.SetEventListener(this);
     }
 
     public void connect(String ip, int port) {

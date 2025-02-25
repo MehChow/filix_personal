@@ -44,7 +44,7 @@ export default HomeHeader;
 const styles = StyleSheet.create({
   header: {
     position: "relative",
-    width: 375,
+    width: "100%",
     maxWidth: 375,
     height: 300,
     marginBottom: 20,
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   },
   image: {
     position: "absolute",
-    marginTop: 20,
-    marginLeft: 80,
+    right: 0,
+    top: 20,
   },
 });

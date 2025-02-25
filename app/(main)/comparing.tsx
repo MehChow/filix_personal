@@ -4,6 +4,9 @@ import { AnimatedCircularProgress } from "react-native-circular-progress";
 import { DMSans700 } from "~/utils/dmsans-text";
 import Footer from "~/components/Footer";
 import colors from "~/constants/color";
+import { getWindowWidth } from "~/utils/helper";
+
+const windowWidth = getWindowWidth();
 
 const ComparingPage = () => {
   const router = useRouter();
@@ -23,7 +26,7 @@ const ComparingPage = () => {
 
       {/* Circular progress */}
       <AnimatedCircularProgress
-        size={350}
+        size={windowWidth * 0.85}
         width={5}
         fill={100}
         rotation={180}
@@ -54,7 +57,7 @@ const styles = StyleSheet.create({
   },
   content: {
     position: "absolute",
-    width: 300,
+    width: windowWidth * 0.7,
     gap: 12,
   },
   graph: { alignSelf: "center" },

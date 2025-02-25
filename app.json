@@ -4,7 +4,7 @@
     "slug": "rn_filix",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/filix_app_icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -14,7 +14,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/filix_app_icon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.meh_chow.rn_filix"
@@ -29,9 +29,8 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/filix_logo.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
+          "image": "./assets/images/filix_splash_icon.png",
+          "imageWidth": 150,
           "backgroundColor": "#ffffff"
         }
       ],
