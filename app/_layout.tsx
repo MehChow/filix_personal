@@ -25,8 +25,8 @@ export default function RootLayout() {
   const { LinkSquareModule } = NativeModules;
   const eventEmitter = new NativeEventEmitter(LinkSquareModule);
 
+  // Subscribe to events emitted from the native module
   useEffect(() => {
-    // Subscribe to events emitted from the native module
     const connectionEventListener = eventEmitter.addListener(
       "CONNECTED",
       (message) => {
@@ -60,8 +60,6 @@ export default function RootLayout() {
       // Ensure auth is checked before navigating
 
       if (isLogin === true) {
-        // Start connection
-
         router.replace("/(main)/home");
       } else if (isLogin === false) {
         router.replace("/(auth)/login");
