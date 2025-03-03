@@ -5,7 +5,6 @@ import LoadingIndicator from "~/components/Loading-indicator";
 import useLoadFonts from "~/hooks/use-load-fonts";
 import { useUserStore } from "~/store/user-store";
 import { askForLocationPermission } from "~/utils/helper";
-import { NativeModules, NativeEventEmitter } from "react-native";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -14,39 +13,6 @@ const IndexPage = () => {
 
   const { isLogin } = useUserStore();
   const { fontsLoaded } = useLoadFonts();
-
-  const { LinkSquareModule } = NativeModules;
-  const eventEmitter = new NativeEventEmitter(LinkSquareModule);
-
-  // Subscribe to events emitted from the native module
-  useEffect(() => {
-    const connectionEventListener = eventEmitter.addListener(
-      "CONNECTED",
-      (message) => {
-        console.log("Connection Successful:", message);
-      }
-    );
-
-    const onScanCompleteEventListener = eventEmitter.addListener(
-      "onScanComplete",
-      (frames) => {
-        console.log("Scanned Frames:", frames);
-      }
-    );
-
-    const errorEventListener = eventEmitter.addListener(
-      "onError",
-      (errorMessage) => {
-        console.error("Connection Error:", errorMessage);
-      }
-    );
-
-    return () => {
-      connectionEventListener.remove();
-      onScanCompleteEventListener.remove();
-      errorEventListener.remove();
-    };
-  }, []);
 
   useEffect(() => {
     if (fontsLoaded) {

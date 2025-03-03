@@ -5,11 +5,36 @@ import { DMSans700 } from "~/utils/dmsans-text";
 import Footer from "~/components/Footer";
 import colors from "~/constants/color";
 import { getWindowWidth } from "~/utils/helper";
+import { useScannedFrameStore } from "~/store/scanned-frame-store";
+import { useSelectStore } from "~/store/select-store";
+import { useEffect } from "react";
+import calculateSimilarity from "~/api/calculate";
 
 const windowWidth = getWindowWidth();
 
 const ComparingPage = () => {
   const router = useRouter();
+
+  const { pixel_array } = useScannedFrameStore();
+  const { selectedData } = useSelectStore();
+
+  const handleCalculate = async () => {
+    try {
+      const result = await calculateSimilarity(
+        pixel_array,
+        selectedData.category,
+        selectedData.productName
+      );
+      console.log(result.similarity);
+      console.log(result.error);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    handleCalculate();
+  }, []);
 
   return (
     <View style={styles.container}>

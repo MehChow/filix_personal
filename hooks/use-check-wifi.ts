@@ -7,7 +7,7 @@ const useCheckWifi = (prefix: string) => {
   useEffect(() => {
     const loadWifiName = async () => {
       const state = await NetInfo.fetch();
-      console.log("Current connected wifi: ", state.details?.ssid);
+      // console.log("Current connected wifi: ", state.details?.ssid);
       if (state.details?.ssid?.startsWith(prefix)) {
         setDetectedLSWiFi(true);
         // Clear the interval if LSWiFi is found

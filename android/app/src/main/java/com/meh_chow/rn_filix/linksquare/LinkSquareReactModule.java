@@ -28,28 +28,19 @@ public class LinkSquareReactModule extends ReactContextBaseJavaModule {
 
             @Override
             public void onScanComplete(List<LSFrame> frames) {
-                WritableArray framesArray = Arguments.createArray();
-                for (LSFrame frame : frames) {
-                    WritableMap frameMap = Arguments.createMap();
-                    frameMap.putInt("frameNo", frame.frameNo);
-                    frameMap.putInt("lightSource", frame.lightSource);
-                    frameMap.putInt("length", frame.length);
-
-                    WritableArray dataArray = Arguments.createArray();
-                    for (float dataPoint : frame.data) {
-                        dataArray.pushDouble(dataPoint); // Store each float as double
-                    }
-                    frameMap.putArray("data", dataArray);
-
+                WritableMap frameMap = Arguments.createMap();
+                
+                if (!frames.isEmpty()) {
+                    LSFrame lastFrame = frames.get(frames.size() - 1);
+                    
                     WritableArray rawDataArray = Arguments.createArray();
-                    for (float rawDataPoint : frame.raw_data) {
-                        rawDataArray.pushDouble(rawDataPoint); // Store each float as double
+                    for (float rawDataPoint : lastFrame.raw_data) {
+                        rawDataArray.pushDouble(rawDataPoint);
                     }
                     frameMap.putArray("raw_data", rawDataArray);
-                    
-                    framesArray.pushMap(frameMap);
                 }
-                sendEvent("onScanComplete", framesArray);
+                
+                sendEvent("onScanComplete", frameMap);
             }
 
             @Override
@@ -88,8 +79,8 @@ public class LinkSquareReactModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void scan(int scanDuration, int scanInterval) {
-        linkSquareModule.scan(scanDuration, scanInterval);
+    public void scan(int ledFrames, int bulbFrames) {
+        linkSquareModule.scan(ledFrames, bulbFrames);
     }
 
     @ReactMethod

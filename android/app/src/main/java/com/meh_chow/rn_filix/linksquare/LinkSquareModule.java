@@ -65,10 +65,10 @@ public class LinkSquareModule implements LinkSquareAPI.LinkSquareAPIListener {
         return linkSquareAPI.IsConnected();
     }
 
-    public void scan(int scanDuration, int scanInterval) {
+    public void scan(int ledFrames, int bulbFrames) {
         new Thread(() -> {
             List<LSFrame> frames = new ArrayList<>();
-            int result = linkSquareAPI.Scan(scanDuration, scanInterval, frames);
+            int result = linkSquareAPI.Scan(ledFrames, bulbFrames, frames);
             if (result == LinkSquareAPI.RET_OK && callback != null) {
                 callback.onScanComplete(frames);
             } else if (callback != null) {
@@ -87,7 +87,7 @@ public class LinkSquareModule implements LinkSquareAPI.LinkSquareAPIListener {
         switch (eventType) {
             case Button:
                 if (callback != null) callback.onEvent("BUTTON_PRESSED", "Scan triggered.");
-                scan(3, 3);
+                scan(0, 1);
                 break;
             case Timeout:
                 if (callback != null) callback.onError("Network timeout.");
