@@ -16,8 +16,7 @@ import { useScannedFrameStore } from "~/store/scanned-frame-store";
 export default function RootLayout() {
   const queryClient = new QueryClient();
 
-  const { LinkSquareModule } = NativeModules;
-  const eventEmitter = new NativeEventEmitter(LinkSquareModule);
+  const eventEmitter = new NativeEventEmitter();
 
   const { setScannedFrameData } = useScannedFrameStore();
 
