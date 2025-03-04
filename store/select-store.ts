@@ -17,7 +17,7 @@ interface SelectState {
  * @description
  * After user choose a category and a product name, and click the confirm button,
  * the data will be stored in this store for displaying in the result page.
- * When the user click the back home button, the data will be cleared.
+ * When the user click the back home button, the data should be cleared by calling the `clearSelectOption` function.
  */
 export const useSelectStore = create<SelectState>()((set) => ({
   selectedData: {

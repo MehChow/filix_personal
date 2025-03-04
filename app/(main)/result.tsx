@@ -1,11 +1,12 @@
 import { StyleSheet, View } from "react-native";
-import colors from "~/constants/color";
 import { Progress } from "~/components/ui/progress";
 import { DMSans400, DMSans700 } from "~/utils/dmsans-text";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { useSelectStore } from "~/store/select-store";
+import { useScannedFrameStore } from "~/store/scanned-frame-store";
 import Footer from "~/components/Footer";
 import Button from "~/components/Button";
-import { useSelectStore } from "~/store/select-store";
+import colors from "~/constants/color";
 import useProgressBar from "~/hooks/use-progress-bar";
 
 type ResultRouteParams = {
@@ -13,6 +14,7 @@ type ResultRouteParams = {
 };
 
 const ResultPage = () => {
+  // Get similarity value passed from the comparing page
   const { similarity } = useLocalSearchParams<ResultRouteParams>();
   const similarityValue = Number(similarity || 0);
 
@@ -28,19 +30,21 @@ const ResultPage = () => {
     }
   };
 
-  // Access user's selected data
-  const { selectedData, clearSelectOption } = useSelectStore();
-
   // Get indicator color and text color of the progress bar
   const [indicatorColor, textColor] = getIndicatorColor();
+
+  // Access user's selected data
+  const { selectedData, clearSelectOption } = useSelectStore();
+  const { clearScannedFrameData } = useScannedFrameStore();
 
   // Progress Bar
   const { progress } = useProgressBar(similarityValue);
 
-  const router = useRouter();
   // Reset selected data state, and return home
+  const router = useRouter();
   const handleBack = () => {
     clearSelectOption();
+    clearScannedFrameData();
     router.replace("/(main)/home");
   };
 
