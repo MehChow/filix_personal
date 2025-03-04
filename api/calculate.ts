@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "~/api/request";
 
 interface SimilarityResponse {
   similarity: string;
@@ -11,7 +11,7 @@ const calculateSimilarity = async (
   productName: string
 ): Promise<SimilarityResponse> => {
   const response = await axios.post<SimilarityResponse>(
-    "http://192.168.50.192:80/calculate-similarity",
+    "/calculate-similarity",
     {
       pixels,
       category,
