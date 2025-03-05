@@ -19,26 +19,29 @@ const ComparingPage = () => {
   const { pixel_array } = useScannedFrameStore();
   const { selectedData } = useSelectStore();
 
-  const handleCalculate = async () => {
-    try {
-      const result = await calculateSimilarity(
-        pixel_array,
-        selectedData.category,
-        selectedData.productName
-      );
-      console.log(result.similarity);
-      console.log(result.error);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
+    const handleCalculate = async () => {
+      try {
+        const result = await calculateSimilarity(
+          pixel_array,
+          selectedData.category,
+          selectedData.productName
+        );
+
+        if (result.error) {
+          console.log(result.error);
+        }
+
+        router.replace({
+          pathname: "/(main)/result",
+          params: { similarity: result.similarity },
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
     handleCalculate();
-    router.replace({
-      pathname: "/(main)/result",
-      params: { similarity: 46.7 },
-    });
   }, []);
 
   return (
