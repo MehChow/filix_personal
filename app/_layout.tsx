@@ -4,6 +4,7 @@ import {
   StatusBar,
   View,
   NativeEventEmitter,
+  ToastAndroid,
 } from "react-native";
 import { PortalHost } from "@rn-primitives/portal";
 import "~/global.css";
@@ -32,6 +33,9 @@ export default function RootLayout() {
       "onScanComplete",
       (frames) => {
         console.log("Scanned Frames (raw_data list): ", frames);
+        if (frames.raw_data.length === 600) {
+          ToastAndroid.show("Data scanned successfully!", ToastAndroid.LONG);
+        }
         setScannedFrameData(frames.raw_data);
       }
     );

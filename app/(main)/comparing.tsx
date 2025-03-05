@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, ToastAndroid, View } from "react-native";
 import { DMSans700 } from "~/utils/dmsans-text";
 import { getWindowWidth } from "~/utils/helper";
 import { useScannedFrameStore } from "~/store/scanned-frame-store";
@@ -16,7 +16,7 @@ const ComparingPage = () => {
   const router = useRouter();
 
   // Access scanned frame data and selected data
-  const { pixel_array } = useScannedFrameStore();
+  const { pixel_array, clearScannedFrameData } = useScannedFrameStore();
   const { selectedData } = useSelectStore();
 
   useEffect(() => {
@@ -37,7 +37,15 @@ const ComparingPage = () => {
           params: { similarity: result.similarity },
         });
       } catch (err) {
-        console.log(err);
+        ToastAndroid.show(
+          "Something went wrong, please try again",
+          ToastAndroid.SHORT
+        );
+
+        clearScannedFrameData();
+        router.replace({
+          pathname: "/(main)/home",
+        });
       }
     };
 

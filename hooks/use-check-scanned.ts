@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { ToastAndroid } from "react-native";
 import { useScannedFrameStore } from "~/store/scanned-frame-store";
 
@@ -27,13 +26,6 @@ const useCheckScanned = () => {
 
     return true;
   };
-
-  // Alert the user that the data is scanned successfully. Default length is 600
-  useEffect(() => {
-    if (pixel_array.length === 600) {
-      ToastAndroid.show("Data scanned successfully!", ToastAndroid.LONG);
-    }
-  }, [pixel_array]);
 
   return { checkDataStatus };
 };
