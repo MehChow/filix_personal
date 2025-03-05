@@ -4,17 +4,18 @@ import { DMSans700 } from "~/utils/dmsans-text";
 import { getWindowWidth } from "~/utils/helper";
 import { useScannedFrameStore } from "~/store/scanned-frame-store";
 import { useSelectStore } from "~/store/select-store";
+import { useEffect } from "react";
+import * as Progress from "react-native-progress";
 import calculateSimilarity from "~/api/calculate";
 import Footer from "~/components/Footer";
 import colors from "~/constants/color";
-import * as Progress from "react-native-progress";
-import { useEffect } from "react";
 
 const windowWidth = getWindowWidth();
 
 const ComparingPage = () => {
   const router = useRouter();
 
+  // Access scanned frame data and selected data
   const { pixel_array } = useScannedFrameStore();
   const { selectedData } = useSelectStore();
 

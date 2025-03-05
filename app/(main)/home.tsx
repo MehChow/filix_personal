@@ -3,6 +3,7 @@ import { useRouter } from "expo-router";
 import { SelectSchema, selectSchema } from "~/schema/select-schema";
 import { useSelectStore } from "~/store/select-store";
 import useCheckWifi from "~/hooks/use-check-wifi";
+import useCheckScanned from "~/hooks/use-check-scanned";
 import StepSeparator from "~/components/home/steps/Step-separator";
 import StepTwo from "~/components/home/steps/Step-two";
 import StepOne from "~/components/home/steps/Step-one";
@@ -16,17 +17,22 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const HomePage = () => {
-  const router = useRouter();
-
   useCheckWifi("LS");
 
+  const router = useRouter();
+
+  const { checkDataStatus } = useCheckScanned();
   const { setSelectOption } = useSelectStore();
+
   const handleConfirm = () => {
     const selectedOptions = {
       category: getValues().category.label,
       productName: getValues().productName.label,
     };
     setSelectOption(selectedOptions);
+
+    const isDataReady = checkDataStatus();
+    if (!isDataReady) return;
 
     router.replace("/(main)/comparing");
   };

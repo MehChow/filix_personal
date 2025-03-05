@@ -3,7 +3,6 @@ import {
   ImageBackground,
   StatusBar,
   View,
-  NativeModules,
   NativeEventEmitter,
 } from "react-native";
 import { PortalHost } from "@rn-primitives/portal";
