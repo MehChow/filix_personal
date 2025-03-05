@@ -33,21 +33,12 @@ const ComparingPage = () => {
     }
   };
 
-  // useEffect(() => {
-  //   handleCalculate();
-  //   router.replace({
-  //     pathname: "/(main)/result",
-  //     params: { similarity: 46.7 },
-  //   })
-  // }, []);
-
   useEffect(() => {
-    setTimeout(() => {
-      router.replace({
-        pathname: "/(main)/result",
-        params: { similarity: 46.7 },
-      });
-    }, 3000);
+    handleCalculate();
+    router.replace({
+      pathname: "/(main)/result",
+      params: { similarity: 46.7 },
+    });
   }, []);
 
   return (

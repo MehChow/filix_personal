@@ -15,6 +15,7 @@ import HomeHeader from "~/components/home/header";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useUserStore } from "~/store/user-store";
 
 const HomePage = () => {
   useCheckWifi("LS");
@@ -46,6 +47,9 @@ const HomePage = () => {
   } = useForm<SelectSchema>({
     resolver: zodResolver(selectSchema),
   });
+
+  const { userInfo } = useUserStore();
+  console.log(userInfo);
 
   return (
     <ScrollView

@@ -2,8 +2,8 @@ import { useUserStore } from "~/store/user-store";
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://uat-console.filix.hk/",
-  // baseURL: "http://192.168.50.192:80/"
+  // baseURL: "https://uat-console.filix.hk/",
+  baseURL: "http://192.168.50.192:80/",
 });
 
 instance.interceptors.response.use(

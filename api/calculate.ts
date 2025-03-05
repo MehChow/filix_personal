@@ -1,4 +1,4 @@
-import axios from "~/api/request";
+import apiService from "./apiService";
 
 interface SimilarityResponse {
   similarity: string;
@@ -10,17 +10,13 @@ const calculateSimilarity = async (
   category: string,
   productName: string
 ): Promise<SimilarityResponse> => {
-  const response = await axios.post<SimilarityResponse>(
-    "/calculate-similarity",
-    {
-      pixels,
-      category,
-      productName,
-    },
-    {
-      headers: { "Content-Type": "application/json" },
-    }
-  );
+  const endpoint = "/calculate-similarity";
+  const response = await apiService.post(endpoint, {
+    pixels,
+    category,
+    productName,
+  });
+
   return response.data;
 };
 
