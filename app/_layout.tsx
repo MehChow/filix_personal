@@ -12,13 +12,20 @@ import "~/global.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useScannedFrameStore } from "~/store/scanned-frame-store";
+import initializeNetworkListener from "~/services/network-listener";
 
 export default function RootLayout() {
   const queryClient = new QueryClient();
-
   const eventEmitter = new NativeEventEmitter();
 
   const { setScannedFrameData } = useScannedFrameStore();
+
+  // Initialize LS Wifi network listener, keep tracking the LS WiFi connection status
+  useEffect(() => {
+    console.log(process.env.EXPO_PUBLIC_BASEURL);
+    const cleanup = initializeNetworkListener();
+    return cleanup;
+  }, []);
 
   // Subscribe to events emitted from the native module
   useEffect(() => {

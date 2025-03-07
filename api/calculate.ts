@@ -10,7 +10,7 @@ const calculateSimilarity = async (
   category: string,
   productName: string
 ): Promise<SimilarityResponse> => {
-  const endpoint = "/calculate-similarity";
+  const endpoint = "/api/scan.calculate/calculateSimilarity";
   const response = await apiService.post(endpoint, {
     pixels,
     category,

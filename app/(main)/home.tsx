@@ -1,8 +1,9 @@
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, ToastAndroid } from "react-native";
 import { useRouter } from "expo-router";
 import { SelectSchema, selectSchema } from "~/schema/select-schema";
 import { useSelectStore } from "~/store/select-store";
-import useCheckWifi from "~/hooks/use-check-wifi";
+import { useNetInfo } from "@react-native-community/netinfo";
+import useConnectNIR from "~/hooks/use-connect-nir";
 import useCheckScanned from "~/hooks/use-check-scanned";
 import StepSeparator from "~/components/home/steps/Step-separator";
 import StepTwo from "~/components/home/steps/Step-two";
@@ -17,11 +18,16 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const HomePage = () => {
-  useCheckWifi("LS");
-
   const router = useRouter();
+  const netInfo = useNetInfo();
 
+  // NIR device connection status
+  const { NIRDeviceConnected } = useConnectNIR();
+
+  // Scanned data status
   const { checkDataStatus } = useCheckScanned();
+
+  // Selection of category and product
   const { setSelectOption } = useSelectStore();
 
   const handleConfirm = () => {
@@ -33,6 +39,15 @@ const HomePage = () => {
 
     const isDataReady = checkDataStatus();
     if (!isDataReady) return;
+
+    const internetReachable = netInfo.isInternetReachable;
+    if (!internetReachable) {
+      ToastAndroid.show(
+        "Please connect to the Internet first",
+        ToastAndroid.LONG
+      );
+      return;
+    }
 
     router.replace("/(main)/comparing");
   };
@@ -58,7 +73,7 @@ const HomePage = () => {
       {/* Steps */}
       <View style={styles.stepsContainer}>
         {/* Step 1: CONNECT */}
-        <StepOne />
+        <StepOne NIRDeviceConnected={NIRDeviceConnected} />
         <StepSeparator />
 
         {/* Step 2: PRODUCT */}

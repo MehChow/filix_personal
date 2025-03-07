@@ -2,7 +2,13 @@ import { create } from "zustand";
 
 interface LSWifiConnectionState {
   isConnected: boolean;
+  NIRDeviceConnected: boolean;
+  isLoading: boolean;
+  error: string | null;
   setIsConnected: (data: boolean) => void;
+  setNIRDeviceConnected: (data: boolean) => void;
+  setLoading: (isLoading: boolean) => void;
+  setError: (error: string | null) => void;
 }
 
 /**
@@ -17,6 +23,12 @@ interface LSWifiConnectionState {
 export const useLSWifiConnectionStore = create<LSWifiConnectionState>()(
   (set) => ({
     isConnected: false,
+    NIRDeviceConnected: false,
+    isLoading: false,
+    error: null,
     setIsConnected: (data: boolean) => set({ isConnected: data }),
+    setNIRDeviceConnected: (data: boolean) => set({ NIRDeviceConnected: data }),
+    setLoading: (isLoading: boolean) => set({ isLoading }),
+    setError: (error: string | null) => set({ error }),
   })
 );

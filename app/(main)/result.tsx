@@ -35,6 +35,7 @@ const ResultPage = () => {
 
   // Access user's selected data
   const { selectedData, clearSelectOption } = useSelectStore();
+
   const { clearScannedFrameData } = useScannedFrameStore();
 
   // Progress Bar
