@@ -4,11 +4,10 @@
   "version": "1.0.0",
   "scripts": {
     "local": "adb reverse tcp:8080 tcp:80 && cross-env NODE_ENV=development.local npx expo start --localhost",
-    "dev:android": "cross-env NODE_ENV=test.local npx expo start -c --android",
+    "android": "expo run:android",
     "ios": "expo start -c --ios",
     "test": "jest --watchAll",
-    "postinstall": "npx tailwindcss -i ./global.css -o ./node_modules/.cache/nativewind/global.css",
-    "android": "expo run:android"
+    "postinstall": "npx tailwindcss -i ./global.css -o ./node_modules/.cache/nativewind/global.css"
   },
   "dependencies": {
     "@expo-google-fonts/dm-sans": "^0.2.3",
