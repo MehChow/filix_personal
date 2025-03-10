@@ -8,7 +8,13 @@ const LoginPage = () => {
   const barHeight = getStatusBarHeight();
 
   return (
-    <View style={{ marginTop: barHeight + 80, flex: 1 }}>
+    <View
+      style={{
+        marginTop: barHeight + 80,
+        flex: 1,
+        alignSelf: "center",
+      }}
+    >
       {/* Content container */}
       <View style={styles.contentContainer}>
         {/* Logo */}
@@ -29,9 +35,7 @@ export default LoginPage;
 const styles = StyleSheet.create({
   contentContainer: {
     marginHorizontal: 20,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+    maxWidth: 500,
     gap: 60,
     position: "relative",
   },
