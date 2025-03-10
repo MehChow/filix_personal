@@ -3,7 +3,7 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
-    "local": "cross-env NODE_ENV=development.local npx expo start --localhost",
+    "local": "adb reverse tcp:8080 tcp:80 && cross-env NODE_ENV=development.local npx expo start --localhost",
     "dev:android": "cross-env NODE_ENV=test.local npx expo start -c --android",
     "ios": "expo start -c --ios",
     "test": "jest --watchAll",

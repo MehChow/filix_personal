@@ -28,15 +28,16 @@ const ComparingPage = () => {
           selectedData.productName
         );
 
-        if (result.error) {
-          console.log(result.error);
-        }
-
         router.replace({
           pathname: "/(main)/result",
-          params: { similarity: result.similarity },
+          params: { similarity: result.data.similarity },
         });
       } catch (err) {
+        if (err === "INVALID_TOKEN") {
+          // Redirect to login page (Will be handled by AuthWrapper)
+          return;
+        }
+
         ToastAndroid.show(
           "Something went wrong, please try again",
           ToastAndroid.SHORT

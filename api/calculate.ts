@@ -1,8 +1,11 @@
 import apiService from "./apiService";
 
 interface SimilarityResponse {
-  similarity: string;
-  error?: string;
+  ret: number;
+  msg: string;
+  data: {
+    similarity: number;
+  };
 }
 
 const calculateSimilarity = async (

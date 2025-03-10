@@ -41,7 +41,11 @@ const HomePage = () => {
     if (!isDataReady) return;
 
     const internetReachable = netInfo.isInternetReachable;
-    if (!internetReachable) {
+    // When developing locally, this can bypass the Internet connection check
+    if (
+      !internetReachable &&
+      process.env.EXPO_PUBLIC_BASEURL !== "http://localhost:8080"
+    ) {
       ToastAndroid.show(
         "Please connect to the Internet first",
         ToastAndroid.LONG
