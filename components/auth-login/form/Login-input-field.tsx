@@ -7,6 +7,8 @@ import Feather from "@expo/vector-icons/Feather";
 import { Control, Controller, FieldErrors } from "react-hook-form";
 import { LoginSchema } from "~/schema/login-schema";
 
+import translate from "~/services/localization/i18n";
+
 interface LoginInputFieldProps {
   control: Control<LoginSchema>;
   errors: FieldErrors<LoginSchema>;
@@ -20,7 +22,9 @@ const LoginInputField = ({ control, errors }: LoginInputFieldProps) => {
     <View style={styles.container}>
       {/* Email input */}
       <View style={styles.inputContainer}>
-        <DMSans500 style={styles.inputLable}>Email Address</DMSans500>
+        <DMSans500 style={styles.inputLable}>
+          {translate.t("login.email_address")}
+        </DMSans500>
         <Controller
           name="username"
           control={control}
@@ -29,7 +33,7 @@ const LoginInputField = ({ control, errors }: LoginInputFieldProps) => {
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
-              placeholder="Enter Email Address"
+              placeholder={translate.t("login.email_placeholder")}
               placeholderTextColor={colors.textTertiary}
               style={styles.textInput}
               onBlur={onBlur}
@@ -47,7 +51,9 @@ const LoginInputField = ({ control, errors }: LoginInputFieldProps) => {
 
       {/* Password input */}
       <View style={{ gap: 4 }}>
-        <DMSans500 style={styles.inputLable}>Password</DMSans500>
+        <DMSans500 style={styles.inputLable}>
+          {translate.t("login.password")}
+        </DMSans500>
         <View style={styles.passwordField}>
           <Controller
             name="password"
@@ -57,7 +63,7 @@ const LoginInputField = ({ control, errors }: LoginInputFieldProps) => {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                placeholder="Enter Password"
+                placeholder={translate.t("login.password_placeholder")}
                 placeholderTextColor={colors.textTertiary}
                 style={styles.textInput}
                 secureTextEntry={!isVisible}

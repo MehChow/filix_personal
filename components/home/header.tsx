@@ -4,10 +4,13 @@ import { DMSans700 } from "~/utils/dmsans-text";
 import { useUserStore } from "~/store/user-store";
 import colors from "~/constants/color";
 
+import translate from "~/services/localization/i18n";
+
 const HomeHeader = () => {
   // For development use only. Tap the Pen icon 10 times to logout
   const [devLogoutCount, setDevLogoutCount] = useState(0);
   const { clearUserInfo } = useUserStore();
+
   useEffect(() => {
     if (devLogoutCount > 10) {
       clearUserInfo();
@@ -16,7 +19,9 @@ const HomeHeader = () => {
   return (
     <View style={styles.header}>
       <DMSans700 style={styles.title}>Filix Scan</DMSans700>
-      <DMSans700 style={styles.subTitle}>Let's start NIR</DMSans700>
+      <DMSans700 style={styles.subTitle}>
+        {translate.t("home.scan_title")}
+      </DMSans700>
 
       {/* For development use only, logout test */}
       <Pressable

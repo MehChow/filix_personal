@@ -3,12 +3,14 @@ import { Link } from "expo-router";
 import colors from "~/constants/color";
 import { DMSans400 } from "~/utils/dmsans-text";
 
+import translate from "~/services/localization/i18n";
+
 const FooterHelper = () => {
   return (
     <View style={styles.registerHelper}>
-      <DMSans400>Don't have an account?</DMSans400>
+      <DMSans400>{translate.t("login.no_account")}</DMSans400>
       <Link href="/(auth)/register" style={styles.registerLink}>
-        Register Now!
+        {translate.t("login.register")}
       </Link>
     </View>
   );

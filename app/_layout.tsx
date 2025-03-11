@@ -13,6 +13,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useScannedFrameStore } from "~/store/scanned-frame-store";
 import initializeNetworkListener from "~/services/network-listener";
+import { LanguageProvider } from "~/context/language-context";
 
 export default function RootLayout() {
   const queryClient = new QueryClient();
@@ -63,17 +64,19 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <View style={{ flex: 1 }}>
-        <StatusBar backgroundColor="transparent" translucent />
+      <LanguageProvider>
+        <View style={{ flex: 1 }}>
+          <StatusBar backgroundColor="transparent" translucent />
 
-        <ImageBackground
-          source={require("~/assets/images/background.png")}
-          style={{ flex: 1 }}
-        >
-          <Slot />
-        </ImageBackground>
-      </View>
-      <PortalHost />
+          <ImageBackground
+            source={require("~/assets/images/background.png")}
+            style={{ flex: 1 }}
+          >
+            <Slot />
+          </ImageBackground>
+        </View>
+        <PortalHost />
+      </LanguageProvider>
     </QueryClientProvider>
   );
 }

@@ -16,10 +16,16 @@ import HomeHeader from "~/components/home/header";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import LanguageToggle from "~/components/language-toggle";
+import { useLanguage } from "~/context/language-context";
+
+import translate from "~/services/localization/i18n";
 
 const HomePage = () => {
   const router = useRouter();
   const netInfo = useNetInfo();
+
+  useLanguage();
 
   // NIR device connection status
   const { NIRDeviceConnected } = useConnectNIR();
@@ -71,6 +77,7 @@ const HomePage = () => {
       contentContainerStyle={styles.container}
       showsVerticalScrollIndicator={false}
     >
+      <LanguageToggle />
       {/* Product header */}
       <HomeHeader />
 
@@ -93,7 +100,7 @@ const HomePage = () => {
       </View>
 
       <Button
-        buttonText="Confirm"
+        buttonText={translate.t("home.step_four.confirm")}
         width="100%"
         onPress={handleSubmit(handleConfirm)}
       />
@@ -107,7 +114,7 @@ export default HomePage;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 50,
+    paddingTop: 80,
     paddingBottom: 200,
     justifyContent: "center",
     alignItems: "center",

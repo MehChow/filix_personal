@@ -18,6 +18,8 @@ import { UserInfo } from "~/types/user-info";
 import { AxiosResponse } from "axios";
 import { useMutation } from "@tanstack/react-query";
 
+import translate from "~/services/localization/i18n";
+
 const LoginForm = () => {
   const { setUserInfo } = useUserStore();
   const { alertOpen, setAlertOpen, alertMessage, createAlert } = useAlert();
@@ -78,7 +80,7 @@ const LoginForm = () => {
 
       {/* Forget password? */}
       <Link href={"/(auth)/forget-password"} style={styles.forgetPassword}>
-        Forget Password?
+        {translate.t("login.forget_password")}
       </Link>
 
       {/* Keep me signed in checkbox */}
@@ -86,7 +88,11 @@ const LoginForm = () => {
 
       {/* Confirm Button */}
       <Button
-        buttonText={mutation.isPending ? "Logging in..." : "Confirm"}
+        buttonText={
+          mutation.isPending
+            ? translate.t("login.logging_in")
+            : translate.t("login.confirm")
+        }
         width="100%"
         onPress={handleSubmit(handleLogin)}
         disabled={mutation.isPending}

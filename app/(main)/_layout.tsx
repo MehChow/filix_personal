@@ -1,5 +1,5 @@
 import { Stack } from "expo-router";
-import { StatusBar, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import AuthWrapper from "~/services/auth-wrapper";
 import { getWindowWidth } from "~/utils/helper";
 
@@ -14,7 +14,6 @@ export default function MainLayout() {
             headerShown: false,
             contentStyle: {
               backgroundColor: "transparent",
-              marginTop: StatusBar.currentHeight,
             },
           }}
         >
@@ -30,6 +29,6 @@ export default function MainLayout() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: windowWidth > 480 ? 100 : 20,
+    paddingHorizontal: windowWidth > 480 ? 100 : 20,
   },
 });

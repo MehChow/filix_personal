@@ -6,14 +6,14 @@ export const selectSchema = z.object({
       label: z.string(),
       value: z.string(),
     },
-    { message: "Please select a category" }
+    { message: "errors.category_empty" }
   ),
   productName: z.object(
     {
       label: z.string(),
       value: z.string(),
     },
-    { message: "Please select a product" }
+    { message: "errors.product_empty" }
   ),
 });
 
