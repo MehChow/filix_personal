@@ -48,7 +48,20 @@ export default {
     nycx_agarwood_c: "AgarwoodPowder_NYCX_C",
   },
   errors: {
+    email_empty: "Please enter an email address",
+    password_empty: "Please enter a password",
+    email_invalid: "Invalid email address",
     category_empty: "Please select a category",
     product_empty: "Please select a product",
+  },
+  alerts: {
+    invalid_cred: "User not exist",
+    network_err: "Network error, please try again later",
+    session_expired: "Session expired. Please log in again.",
+    not_scanned: "Please scan the data first",
+    data_corrupted: "Data corrupted. Please scan the data again",
+    no_internet: "Please connect to the Internet first",
+    unknown: "Something went wrong, please try again",
+    scanned_successfully: "Data scanned successfully!",
   },
 };

@@ -15,6 +15,8 @@ import { useScannedFrameStore } from "~/store/scanned-frame-store";
 import initializeNetworkListener from "~/services/network-listener";
 import { LanguageProvider } from "~/context/language-context";
 
+import translate from "~/services/localization/i18n";
+
 export default function RootLayout() {
   const queryClient = new QueryClient();
   const eventEmitter = new NativeEventEmitter();
@@ -42,7 +44,10 @@ export default function RootLayout() {
       (frames) => {
         console.log("Scanned Frames (raw_data list): ", frames);
         if (frames.raw_data.length === 600) {
-          ToastAndroid.show("Data scanned successfully!", ToastAndroid.LONG);
+          ToastAndroid.show(
+            translate.t("alerts.scanned_successfully"),
+            ToastAndroid.LONG
+          );
         }
         setScannedFrameData(frames.raw_data);
       }

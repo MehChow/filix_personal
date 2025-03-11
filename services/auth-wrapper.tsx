@@ -4,15 +4,15 @@ import { useUserStore } from "~/store/user-store";
 
 const AuthWrapper = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
-  const { isLogin } = useUserStore();
+  const { isAuthenticated } = useUserStore();
 
   useEffect(() => {
-    if (isLogin === false) {
+    if (isAuthenticated === false) {
       router.replace("/(auth)/login");
     }
-  }, [isLogin, router]);
+  }, [isAuthenticated, router]);
 
-  if (isLogin === false) {
+  if (isAuthenticated === false) {
     return null;
   }
 

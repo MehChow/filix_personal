@@ -1,5 +1,8 @@
 import { useUserStore } from "~/store/user-store";
 import axios, { AxiosResponse } from "axios";
+import { ToastAndroid } from "react-native";
+
+import translate from "~/services/localization/i18n";
 
 interface ApiResponse<T = unknown> {
   ret: number;
@@ -19,12 +22,18 @@ const ERROR_HANDLERS: Record<string, () => void> = {
   INVALID_TOKEN: () => {
     const clearUserInfo = useUserStore.getState().clearUserInfo;
     clearUserInfo();
-    alert("Session expired. Please log in again.");
+    ToastAndroid.show(
+      translate.t("alerts.session_expired"),
+      ToastAndroid.SHORT
+    );
   },
   // Input data is missing or corrupted, should not happen
   // since frontend should validate the data already
   MISSING: () => {
-    alert("Input data is missing or corrupted.");
+    ToastAndroid.show(translate.t("alerts.data_corrupted"), ToastAndroid.SHORT);
+  },
+  INVALID_CREDENTIALS: () => {
+    ToastAndroid.show(translate.t("alerts.invalid_cred"), ToastAndroid.SHORT);
   },
 };
 
@@ -51,6 +60,7 @@ instance.interceptors.response.use(
     if (error.response) {
       console.error("API Error:", error.response);
     } else {
+      ToastAndroid.show(translate.t("alerts.network_err"), ToastAndroid.SHORT);
       console.error("Network Error:", error);
     }
     return Promise.reject(error);

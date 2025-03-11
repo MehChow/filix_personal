@@ -11,16 +11,17 @@ SplashScreen.preventAutoHideAsync();
 const IndexPage = () => {
   const router = useRouter();
 
-  const { isLogin } = useUserStore();
+  const { isPersistedLogin, setIsAuthenticated } = useUserStore();
   const { fontsLoaded } = useLoadFonts();
 
   useEffect(() => {
     if (fontsLoaded) {
       // Ensure auth is checked before navigating
-
-      if (isLogin === true) {
+      if (isPersistedLogin === true) {
+        setIsAuthenticated(true);
         router.replace("/(main)/home");
-      } else if (isLogin === false) {
+      } else if (isPersistedLogin === false) {
+        setIsAuthenticated(false);
         router.replace("/(auth)/login");
       }
 
@@ -28,10 +29,10 @@ const IndexPage = () => {
       askForLocationPermission();
       SplashScreen.hideAsync();
     }
-  }, [isLogin, fontsLoaded]);
+  }, [isPersistedLogin, fontsLoaded, router, setIsAuthenticated]);
 
   // If fonts are not loaded, show the splash screen
-  if (!fontsLoaded || isLogin === undefined) {
+  if (!fontsLoaded || isPersistedLogin === undefined) {
     return <LoadingIndicator />;
   }
 

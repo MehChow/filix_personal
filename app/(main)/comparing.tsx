@@ -10,6 +10,8 @@ import calculateSimilarity from "~/api/calculate";
 import Footer from "~/components/Footer";
 import colors from "~/constants/color";
 
+import translate from "~/services/localization/i18n";
+
 const windowWidth = getWindowWidth();
 
 const ComparingPage = () => {
@@ -38,10 +40,7 @@ const ComparingPage = () => {
           return;
         }
 
-        ToastAndroid.show(
-          "Something went wrong, please try again",
-          ToastAndroid.SHORT
-        );
+        ToastAndroid.show(translate.t("alerts.unknown"), ToastAndroid.SHORT);
 
         clearScannedFrameData();
         router.replace({

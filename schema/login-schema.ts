@@ -3,9 +3,9 @@ import { z } from "zod";
 export const loginSchema = z.object({
   username: z
     .string()
-    .email("Invalid email address")
-    .min(1, "Email is required"),
-  password: z.string().min(1, "Please enter the password"),
+    .min(1, "errors.email_empty")
+    .email("errors.email_invalid"),
+  password: z.string().min(1, "errors.password_empty"),
 });
 
 export type LoginSchema = z.infer<typeof loginSchema>;

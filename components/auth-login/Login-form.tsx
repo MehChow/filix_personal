@@ -5,8 +5,6 @@ import LoginInputField from "./form/Login-input-field";
 import Button from "../Button";
 import KeepSignIn from "./form/Keep-sign-in";
 import apiService from "~/api/apiService";
-import useAlert from "~/hooks/use-alert";
-import AlertPopup from "../Alert-popup";
 import useCheckBox from "~/hooks/use-check-box";
 
 import { useForm } from "react-hook-form";
@@ -21,8 +19,7 @@ import { useMutation } from "@tanstack/react-query";
 import translate from "~/services/localization/i18n";
 
 const LoginForm = () => {
-  const { setUserInfo } = useUserStore();
-  const { alertOpen, setAlertOpen, alertMessage, createAlert } = useAlert();
+  const { setUserInfo, setIsAuthenticated } = useUserStore();
   const { keepSignIn, onCheckedChange } = useCheckBox();
 
   const router = useRouter();
@@ -53,19 +50,10 @@ const LoginForm = () => {
           setUserInfo(data.data);
         }
 
+        // Keep sign in not checked, just authenticate the user for once
+        setIsAuthenticated(true);
         router.replace("/(main)/home");
-      } else {
-        createAlert({
-          title: "Invalid credentials",
-          content: "User not exist",
-        });
       }
-    },
-    onError: () => {
-      createAlert({
-        title: "Network error",
-        content: "Please try again later",
-      });
     },
   });
 
@@ -96,13 +84,6 @@ const LoginForm = () => {
         width="100%"
         onPress={handleSubmit(handleLogin)}
         disabled={mutation.isPending}
-      />
-
-      {/* Alert popup, can be placed anywhere*/}
-      <AlertPopup
-        alertOpen={alertOpen}
-        setAlertOpen={setAlertOpen}
-        message={alertMessage}
       />
     </View>
   );

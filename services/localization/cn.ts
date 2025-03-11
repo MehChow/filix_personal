@@ -47,7 +47,20 @@ export default {
     nycx_agarwood_c: "C級南洋沉香",
   },
   errors: {
+    email_empty: "請輸入電郵地址",
+    password_empty: "請輸入密碼",
+    email_invalid: "電郵地址格式錯誤",
     category_empty: "請選擇分類",
     product_empty: "請選擇商品",
+  },
+  alerts: {
+    invalid_cred: "用戶不存在",
+    network_err: "網絡錯誤，請稍後再試",
+    session_expired: "登陸過期，請重新登入",
+    not_scanned: "請先掃描數據",
+    data_corrupted: "數據損壞，請重新掃描",
+    no_internet: "請先連接網絡",
+    unknown: "發生未知錯誤，請稍後再試",
+    scanned_successfully: "數據掃描成功！",
   },
 };

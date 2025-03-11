@@ -52,10 +52,7 @@ const HomePage = () => {
       !internetReachable &&
       process.env.EXPO_PUBLIC_BASEURL !== "http://localhost:8080"
     ) {
-      ToastAndroid.show(
-        "Please connect to the Internet first",
-        ToastAndroid.LONG
-      );
+      ToastAndroid.show(translate.t("alerts.no_internet"), ToastAndroid.LONG);
       return;
     }
 

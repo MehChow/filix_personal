@@ -44,7 +44,7 @@ const LoginInputField = ({ control, errors }: LoginInputFieldProps) => {
         />
         {errors.username && (
           <DMSans400 style={styles.errorText}>
-            {errors.username && errors.username.message}
+            {translate.t(errors.username.message!)}
           </DMSans400>
         )}
       </View>
@@ -84,7 +84,7 @@ const LoginInputField = ({ control, errors }: LoginInputFieldProps) => {
 
         {errors.password && (
           <DMSans400 style={styles.errorText}>
-            {errors.password && errors.password.message}
+            {translate.t(errors.password.message!)}
           </DMSans400>
         )}
       </View>

@@ -1,6 +1,8 @@
 import { ToastAndroid } from "react-native";
 import { useScannedFrameStore } from "~/store/scanned-frame-store";
 
+import translate from "~/services/localization/i18n";
+
 /**
  * A custom hook for alerting the user about the scanned data status
  */
@@ -10,7 +12,7 @@ const useCheckScanned = () => {
   const checkDataStatus = () => {
     // User haven't scan the data yet
     if (pixel_array.length === 0) {
-      ToastAndroid.show("Please scan the data first", ToastAndroid.SHORT);
+      ToastAndroid.show(translate.t("alerts.not_scanned"), ToastAndroid.SHORT);
       return false;
     }
 
@@ -18,7 +20,7 @@ const useCheckScanned = () => {
     // Haven't occurred before, but for safety check
     if (pixel_array.length !== 600) {
       ToastAndroid.show(
-        "Data corrupted. Please scan the data again",
+        translate.t("alerts.data_corrupted"),
         ToastAndroid.SHORT
       );
       return false;
