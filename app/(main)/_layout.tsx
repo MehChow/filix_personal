@@ -1,6 +1,9 @@
 import { Stack } from "expo-router";
 import { StatusBar, StyleSheet, View } from "react-native";
 import AuthWrapper from "~/services/auth-wrapper";
+import { getWindowWidth } from "~/utils/helper";
+
+const windowWidth = getWindowWidth();
 
 export default function MainLayout() {
   return (
@@ -27,6 +30,6 @@ export default function MainLayout() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 20,
+    marginHorizontal: windowWidth > 480 ? 100 : 20,
   },
 });

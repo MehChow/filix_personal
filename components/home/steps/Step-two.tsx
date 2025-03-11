@@ -12,6 +12,11 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import colors from "~/constants/color";
+import { getWindowWidth } from "~/utils/helper";
+
+// Select dropdown box insets
+const windowWidth = getWindowWidth();
+const selectInset = windowWidth > 480 ? 100 : 20;
 
 interface StepTwoProps {
   control: Control<SelectSchema>;
@@ -38,7 +43,7 @@ const StepTwo = ({ control, errors }: StepTwoProps) => {
                 />
               </SelectTrigger>
               <SelectContent
-                insets={{ left: 20, right: 20 }}
+                insets={{ left: selectInset, right: selectInset }}
                 className="w-full"
               >
                 <SelectGroup>
@@ -76,7 +81,7 @@ const StepTwo = ({ control, errors }: StepTwoProps) => {
                 />
               </SelectTrigger>
               <SelectContent
-                insets={{ left: 20, right: 20 }}
+                insets={{ left: selectInset, right: selectInset }}
                 className="w-full"
               >
                 <SelectGroup>
