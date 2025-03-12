@@ -36,6 +36,7 @@ const style = StyleSheet.create({
     top: 0,
     right: 0,
     marginTop: 60,
+    zIndex: 1000,
   },
   text: {
     color: colors.textSecondary,

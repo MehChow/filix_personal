@@ -9,6 +9,10 @@ import Button from "~/components/Button";
 import colors from "~/constants/color";
 import useProgressBar from "~/hooks/use-progress-bar";
 
+import translate from "~/services/localization/i18n";
+import LanguageToggle from "~/components/language-toggle";
+import { useLanguage } from "~/context/language-context";
+
 type ResultRouteParams = {
   similarity: string;
 };
@@ -17,6 +21,8 @@ const ResultPage = () => {
   // Get similarity value passed from the comparing page
   const { similarity } = useLocalSearchParams<ResultRouteParams>();
   const similarityValue = Number(similarity || 0);
+
+  useLanguage();
 
   // If this function moved to utils file, the color somehow
   // cannot be passed to the Progress bar
@@ -51,21 +57,27 @@ const ResultPage = () => {
 
   return (
     <View style={styles.container}>
-      <DMSans700 style={styles.title}>Result</DMSans700>
+      <LanguageToggle />
+
+      <DMSans700 style={styles.title}>{translate.t("result.title")}</DMSans700>
 
       {/* Product details */}
       <View style={styles.productContainer}>
         <View style={styles.productDetails}>
-          <DMSans400 style={styles.detailLabel}>Product Type</DMSans400>
+          <DMSans400 style={styles.detailLabel}>
+            {translate.t("result.product_type")}
+          </DMSans400>
           <DMSans700 style={styles.detailContent}>
-            {selectedData.category}
+            {translate.t(`selectOptions.${selectedData.category}`)}
           </DMSans700>
         </View>
 
         <View style={styles.productDetails}>
-          <DMSans400 style={styles.detailLabel}>Product Name</DMSans400>
+          <DMSans400 style={styles.detailLabel}>
+            {translate.t("result.product_name")}
+          </DMSans400>
           <DMSans700 style={styles.detailContent}>
-            {selectedData.productName}
+            {translate.t(`selectOptions.${selectedData.productName}`)}
           </DMSans700>
         </View>
       </View>
@@ -73,7 +85,9 @@ const ResultPage = () => {
       {/* Similarity */}
       <View style={styles.similarityContainer}>
         <View style={styles.metricsContainer}>
-          <DMSans700 style={styles.similarityText}>Similarity</DMSans700>
+          <DMSans700 style={styles.similarityText}>
+            {translate.t("result.similarity")}
+          </DMSans700>
           <DMSans700 style={styles.percentageText} className={`${textColor}`}>
             {similarityValue}%
           </DMSans700>
@@ -82,7 +96,11 @@ const ResultPage = () => {
         <Progress value={progress} indicatorClassName={`${indicatorColor}`} />
       </View>
 
-      <Button buttonText="Back to Homepage" width="60%" onPress={handleBack} />
+      <Button
+        buttonText={translate.t("result.back_home")}
+        width="60%"
+        onPress={handleBack}
+      />
 
       <Footer />
     </View>
@@ -96,7 +114,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    marginTop: 20,
+    marginTop: 60,
     marginBottom: 80,
     fontSize: 16,
     textAlign: "center",

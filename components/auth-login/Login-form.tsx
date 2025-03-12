@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, ToastAndroid, View } from "react-native";
 import { Link, useRouter } from "expo-router";
 import colors from "~/constants/color";
 import LoginInputField from "./form/Login-input-field";
@@ -17,9 +17,10 @@ import { AxiosResponse } from "axios";
 import { useMutation } from "@tanstack/react-query";
 
 import translate from "~/services/localization/i18n";
+import { useEffect } from "react";
 
 const LoginForm = () => {
-  const { setUserInfo, setIsAuthenticated } = useUserStore();
+  const { setUserInfo, setIsPersistedLogin } = useUserStore();
   const { keepSignIn, onCheckedChange } = useCheckBox();
 
   const router = useRouter();
@@ -45,14 +46,15 @@ const LoginForm = () => {
       return response.data;
     },
     onSuccess: (data) => {
+      // Successful login
       if (data.ret === 0) {
         if (keepSignIn) {
-          setUserInfo(data.data);
+          setIsPersistedLogin(true);
         }
 
-        // Keep sign in not checked, just authenticate the user for once
-        setIsAuthenticated(true);
-        router.replace("/(main)/home");
+        // Set user info in global store for accessing token before redirecting to comparing page
+        setUserInfo(data.data);
+        router.replace("/(main)/comparing");
       }
     },
   });
@@ -60,6 +62,10 @@ const LoginForm = () => {
   const handleLogin = (data: LoginSchema) => {
     mutation.mutate(data);
   };
+
+  useEffect(() => {
+    ToastAndroid.show(translate.t("alerts.require_login"), ToastAndroid.LONG);
+  }, []);
 
   return (
     <View style={styles.container}>

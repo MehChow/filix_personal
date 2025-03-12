@@ -47,6 +47,17 @@ export default {
     nycx_agarwood_b: "AgarwoodPowder_NYCX_B",
     nycx_agarwood_c: "AgarwoodPowder_NYCX_C",
   },
+  comparing: {
+    content:
+      "Comparing with the standard spectrum fingerprint in the blockchain",
+  },
+  result: {
+    title: "Result",
+    product_type: "Product Type",
+    product_name: "Product Name",
+    similarity: "Similarity",
+    back_home: "Back to Homepage",
+  },
   errors: {
     email_empty: "Please enter an email address",
     password_empty: "Please enter a password",
@@ -55,6 +66,7 @@ export default {
     product_empty: "Please select a product",
   },
   alerts: {
+    require_login: "Please log in first",
     invalid_cred: "User not exist",
     network_err: "Network error, please try again later",
     session_expired: "Session expired. Please log in again.",

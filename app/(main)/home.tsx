@@ -20,10 +20,13 @@ import LanguageToggle from "~/components/language-toggle";
 import { useLanguage } from "~/context/language-context";
 
 import translate from "~/services/localization/i18n";
+import { useUserStore } from "~/store/user-store";
 
 const HomePage = () => {
   const router = useRouter();
   const netInfo = useNetInfo();
+
+  const { isAuthenticated, isPersistedLogin } = useUserStore();
 
   useLanguage();
 
@@ -37,15 +40,17 @@ const HomePage = () => {
   const { setSelectOption } = useSelectStore();
 
   const handleConfirm = () => {
+    // Prepare selected data, stored it globally in Zustand store
     const selectedOptions = {
-      category: getValues().category.label,
-      productName: getValues().productName.label,
+      category: getValues().category.value,
+      productName: getValues().productName.value,
     };
     setSelectOption(selectedOptions);
 
     const isDataReady = checkDataStatus();
     if (!isDataReady) return;
 
+    // Check Internet connectivity
     const internetReachable = netInfo.isInternetReachable;
     // When developing locally, this can bypass the Internet connection check
     if (
@@ -56,7 +61,13 @@ const HomePage = () => {
       return;
     }
 
-    router.replace("/(main)/comparing");
+    // If user logged in or has persisted login, continue to call api in comparing page
+    if (isAuthenticated || isPersistedLogin) {
+      router.replace("/(main)/comparing");
+    } else {
+      // If user is not logged in, redirect to login page
+      router.push("/(auth)/login");
+    }
   };
 
   // Form for handling selection
