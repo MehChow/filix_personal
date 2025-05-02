@@ -3,7 +3,6 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import LoadingIndicator from "~/components/Loading-indicator";
 import useLoadFonts from "~/hooks/use-load-fonts";
-import { useUserStore } from "~/store/user-store";
 import { askForLocationPermission } from "~/utils/helper";
 
 SplashScreen.preventAutoHideAsync();
@@ -11,28 +10,20 @@ SplashScreen.preventAutoHideAsync();
 const IndexPage = () => {
   const router = useRouter();
 
-  const { isPersistedLogin, setIsAuthenticated } = useUserStore();
   const { fontsLoaded } = useLoadFonts();
 
   useEffect(() => {
     if (fontsLoaded) {
-      // Ensure auth is checked before navigating
-      if (isPersistedLogin === true) {
-        setIsAuthenticated(true);
-        router.replace("/(main)/home");
-      } else if (isPersistedLogin === false) {
-        setIsAuthenticated(false);
-        router.replace("/(auth)/login");
-      }
+      router.replace("/(main)/home");
 
       // After landing the app, hide the splash screen
       askForLocationPermission();
       SplashScreen.hideAsync();
     }
-  }, [isPersistedLogin, fontsLoaded, router, setIsAuthenticated]);
+  }, [fontsLoaded, router]);
 
   // If fonts are not loaded, show the splash screen
-  if (!fontsLoaded || isPersistedLogin === undefined) {
+  if (!fontsLoaded) {
     return <LoadingIndicator />;
   }
 

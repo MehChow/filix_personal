@@ -5,6 +5,7 @@
   "scripts": {
     "local": "adb reverse tcp:8080 tcp:80 && cross-env NODE_ENV=development.local npx expo start --localhost",
     "dev": "cross-env NODE_ENV=test.local npx expo start",
+    "demo": "cross-env NODE_ENV=test.local npx expo start --localhost",
     "android": "expo run:android",
     "ios": "expo start -c --ios",
     "test": "jest --watchAll",

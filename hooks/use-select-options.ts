@@ -14,15 +14,15 @@ export const useSelectOptions = () => {
     () => [
       {
         label: translate.t("selectOptions.nycx_agarwood_a"),
-        value: "agarwood_powder_nycx_a",
+        value: "nycx_agarwood_a",
       },
       {
         label: translate.t("selectOptions.nycx_agarwood_b"),
-        value: "agarwood_powder_nycx_b",
+        value: "nycx_agarwood_b",
       },
       {
         label: translate.t("selectOptions.nycx_agarwood_c"),
-        value: "agarwood_powder_nycx_c",
+        value: "nycx_agarwood_c",
       },
     ],
     [locale]

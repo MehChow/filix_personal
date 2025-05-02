@@ -8,11 +8,18 @@ interface UserState {
   isPersistedLogin: boolean;
   userInfo: UserInfo;
   setIsPersistedLogin: (value: boolean) => void;
-  setIsAuthenticated: (value: boolean) => void;
   setUserInfo: (data: UserInfo) => void;
   clearUserInfo: () => void;
 }
 
+/**
+ * A Zustand store that stores the user info and login status
+ *
+ * @description
+ * userInfo is set when user login successfully. Token is included, where it is used for authentication for subsequent API requests.
+ * isAuthenticated is set when user login successfully.
+ * isPersistedLogin is set when user login successfully, and they have checked the keep sign in checkbox.
+ */
 export const useUserStore = create<UserState>()(
   // persist only user info and isPersistedLogin
   persist(
@@ -28,9 +35,7 @@ export const useUserStore = create<UserState>()(
         sex: 0,
       },
       setIsPersistedLogin: (value) => set({ isPersistedLogin: value }),
-      setIsAuthenticated: (value) => set({ isAuthenticated: value }),
-      setUserInfo: (data) =>
-        set({ userInfo: data, isAuthenticated: true, isPersistedLogin: true }),
+      setUserInfo: (data) => set({ userInfo: data, isAuthenticated: true }),
       clearUserInfo: () =>
         set({
           userInfo: {} as UserInfo,

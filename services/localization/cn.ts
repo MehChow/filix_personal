@@ -41,10 +41,20 @@ export default {
     },
   },
   selectOptions: {
-    agarwood: "沉香木",
-    nycx_agarwood_a: "A級南洋沉香",
-    nycx_agarwood_b: "B級南洋沉香",
-    nycx_agarwood_c: "C級南洋沉香",
+    agarwood: "沉香",
+    nycx_agarwood_a: "A級南洋沉香粉",
+    nycx_agarwood_b: "B級南洋沉香粉",
+    nycx_agarwood_c: "C級南洋沉香粉",
+  },
+  comparing: {
+    content: "正在對比樣本光譜和區塊鏈中的光譜數據...",
+  },
+  result: {
+    title: "NIR光譜數據對照結果",
+    product_type: "產品類型",
+    product_name: "產品名稱",
+    similarity: "相似度",
+    back_home: "回到首頁",
   },
   errors: {
     email_empty: "請輸入電郵地址",
@@ -54,6 +64,7 @@ export default {
     product_empty: "請選擇商品",
   },
   alerts: {
+    require_login: "請先登入",
     invalid_cred: "用戶不存在",
     network_err: "網絡錯誤，請稍後再試",
     session_expired: "登陸過期，請重新登入",

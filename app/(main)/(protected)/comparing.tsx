@@ -26,8 +26,12 @@ const ComparingPage = () => {
       try {
         const result = await calculateSimilarity(
           pixel_array,
-          selectedData.category,
-          selectedData.productName
+          translate.t(`selectOptions.${selectedData.category}`, {
+            locale: "en",
+          }),
+          translate.t(`selectOptions.${selectedData.productName}`, {
+            locale: "en",
+          })
         );
 
         router.replace({
@@ -36,7 +40,7 @@ const ComparingPage = () => {
         });
       } catch (err) {
         if (err === "INVALID_TOKEN") {
-          // Redirect to login page (Will be handled by AuthWrapper)
+          // Redirect to home page (Will be handled by AuthWrapper)
           return;
         }
 
@@ -61,7 +65,7 @@ const ComparingPage = () => {
           style={styles.graph}
         />
         <DMSans700 style={styles.contentText}>
-          Comparing with the standard spectrum fingerprint in the blockchain
+          {translate.t("comparing.content")}
         </DMSans700>
       </View>
 
@@ -88,7 +92,7 @@ const styles = StyleSheet.create({
   },
   content: {
     position: "absolute",
-    width: windowWidth * 0.7,
+    width: windowWidth * 0.65,
     gap: 12,
   },
   graph: { alignSelf: "center" },
