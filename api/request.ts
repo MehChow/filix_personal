@@ -14,7 +14,7 @@ interface ApiResponse<T = unknown> {
 const instance = axios.create({
   // read from env file
   baseURL: process.env.EXPO_PUBLIC_BASEURL,
-  timeout: 10000,
+  timeout: 30000,
 });
 
 const ERROR_HANDLERS: Record<string, () => void> = {

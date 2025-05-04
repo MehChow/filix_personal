@@ -53,6 +53,7 @@ const LoginForm = () => {
         }
 
         // Set user info in global store for accessing token before redirecting to comparing page
+        console.log(data.data);
         setUserInfo(data.data);
         router.replace("/(main)/comparing");
       }

@@ -31,7 +31,6 @@ const HomePage = () => {
   useLanguage();
 
   // NIR device connection status
-  const { NIRDeviceConnected } = useConnectNIR();
 
   // Scanned data status
   const { checkDataStatus } = useCheckScanned();
@@ -92,7 +91,7 @@ const HomePage = () => {
       {/* Steps */}
       <View style={styles.stepsContainer}>
         {/* Step 1: CONNECT */}
-        <StepOne NIRDeviceConnected={NIRDeviceConnected} />
+        <StepOne />
         <StepSeparator />
 
         {/* Step 2: PRODUCT */}

@@ -16,9 +16,10 @@ export default {
     step_one: {
       title: "➀ 連接",
       description:
-        "確認手機已成功連接 LinkSquareNIR Wi-Fi. 如果未自動連接，請重新啟動應用程式並重試。",
+        "在確認您的設備已連接到 LinkSquareNIR Wi-Fi 後，點擊下方的「連接」按鈕，以啟動您的設備與 NIR 設備之間的連接。",
+      connecting: "連接中...",
       connected: "NIR 裝置已連接",
-      notConnected: "NIR 裝置未連接",
+      notConnected: "連接",
     },
     step_two: {
       title: "➁ 選擇產品",
@@ -71,6 +72,7 @@ export default {
     not_scanned: "請先掃描數據",
     data_corrupted: "數據損壞，請重新掃描",
     no_internet: "請先連接網絡",
+    not_ls_wifi: "請先連接至NIR設備的LinkSquareNIR Wi-Fi",
     unknown: "發生未知錯誤，請稍後再試",
     scanned_successfully: "數據掃描成功！",
   },

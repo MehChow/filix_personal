@@ -1,4 +1,11 @@
-import { StyleSheet, View } from "react-native";
+import {
+  ActivityIndicator,
+  NativeEventEmitter,
+  NativeModules,
+  StyleSheet,
+  ToastAndroid,
+  View,
+} from "react-native";
 import { DMSans500, DMSans700 } from "~/utils/dmsans-text";
 import Feather from "@expo/vector-icons/Feather";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
@@ -7,18 +14,70 @@ import { Button } from "~/components/ui/button";
 
 import translate from "~/services/localization/i18n";
 
-interface StepOneProps {
-  NIRDeviceConnected: boolean;
-}
+import NetInfo from "@react-native-community/netinfo";
+import { useLSWifiConnectionStore } from "~/store/ls-wifi-connection-store";
+import { useEffect, useState } from "react";
 
-const StepOne = ({ NIRDeviceConnected }: StepOneProps) => {
+const StepOne = () => {
+  const { LinkSquareModule } = NativeModules;
+  const { NIRDeviceConnected, setNIRDeviceConnected } =
+    useLSWifiConnectionStore();
+  const [isConnecting, setIsConnecting] = useState(false);
+
+  const eventEmitter = new NativeEventEmitter();
+
+  useEffect(() => {
+    const connectListener = eventEmitter.addListener("CONNECTED", (message) => {
+      console.log("CONNECTED: ", message);
+      setNIRDeviceConnected(true);
+    });
+
+    const errorEventListener = eventEmitter.addListener(
+      "onError",
+      (errorMessage) => {
+        setNIRDeviceConnected(false);
+        console.log("Connection Error:", errorMessage);
+      }
+    );
+
+    return () => {
+      connectListener.remove();
+      errorEventListener.remove();
+    };
+  }, [setNIRDeviceConnected]);
+
+  const handleConnect = async () => {
+    setIsConnecting(true);
+    try {
+      const state = await NetInfo.fetch("wifi");
+      if (state.type === "wifi" && state.isConnected) {
+        const wifiName = state.details.ssid || null;
+        const isLSWiFi = wifiName?.startsWith("LS") || false;
+        if (wifiName && isLSWiFi) {
+          await LinkSquareModule.initialize();
+          await LinkSquareModule.connect("192.168.1.1", 18630);
+        } else {
+          ToastAndroid.show(
+            translate.t("alerts.not_ls_wifi"),
+            ToastAndroid.LONG
+          );
+        }
+      } else {
+        ToastAndroid.show(translate.t("alerts.not_ls_wifi"), ToastAndroid.LONG);
+      }
+    } catch (error: any) {
+      setNIRDeviceConnected(false);
+    }
+    setIsConnecting(false);
+  };
+
   const buttonBgColor = NIRDeviceConnected ? "bg-[#55BB7F]" : "bg-transparent";
   const buttonBorder = NIRDeviceConnected ? "" : "border-[2px]";
-  const buttonBorderColor = NIRDeviceConnected ? "" : "border-[#B3B1B8]";
+  const buttonBorderColor = NIRDeviceConnected ? "" : "border-[#55BB7F]";
   const buttonText = NIRDeviceConnected
     ? translate.t("home.step_one.connected")
     : translate.t("home.step_one.notConnected");
-  const buttonTextColor = NIRDeviceConnected ? "text-white" : "text-[#B3B1B8]";
+  const buttonTextColor = NIRDeviceConnected ? "text-white" : "text-[#55BB7F]";
 
   return (
     <View style={styles.step}>
@@ -35,16 +94,16 @@ const StepOne = ({ NIRDeviceConnected }: StepOneProps) => {
 
       <Button
         className={`${buttonBgColor} ${buttonBorder} ${buttonBorderColor} flex-row items-center rounded-full gap-2 !h-12 !py-0 opacity-100`}
-        disabled={true}
+        onPress={handleConnect}
+        disabled={NIRDeviceConnected || isConnecting}
       >
+        {isConnecting && <ActivityIndicator size="small" color="#55BB7F" />}
         <DMSans500 className={`font-bold ${buttonTextColor}`}>
-          {buttonText}
+          {isConnecting ? translate.t("home.step_one.connecting") : buttonText}
         </DMSans500>
-        <FontAwesome6
-          name={NIRDeviceConnected ? "face-smile" : "face-meh"}
-          size={20}
-          color={NIRDeviceConnected ? "white" : "#B3B1B8"}
-        />
+        {NIRDeviceConnected && (
+          <FontAwesome6 name="face-smile" size={20} color="white" />
+        )}
       </Button>
     </View>
   );

@@ -16,9 +16,10 @@ export default {
     step_one: {
       title: "➀ CONNECT",
       description:
-        "Confirm mobile phone is connected to LinkSquareNIR Wi-Fi. If NIR device is not automatically connected, please restart the app and try again.",
+        "After confirming your device is connected to LinkSquareNIR Wi-Fi, tap the Connect button below to initiate the connection between your device and the NIR device.",
+      connecting: "Connecting...",
       connected: "NIR DEVICE CONNECTED",
-      notConnected: "NIR DEVICE NOT CONNECTED",
+      notConnected: "CONNECT",
     },
     step_two: {
       title: "➁ PRODUCT",
@@ -73,6 +74,7 @@ export default {
     not_scanned: "Please scan the data first",
     data_corrupted: "Data corrupted. Please scan the data again",
     no_internet: "Please connect to the Internet first",
+    not_ls_wifi: "Please connect to the NIR device's LS Wi-Fi first",
     unknown: "Something went wrong, please try again",
     scanned_successfully: "Data scanned successfully!",
   },
