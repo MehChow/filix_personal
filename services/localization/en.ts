@@ -33,8 +33,7 @@ export default {
         "Place the NIR scanner on the product and press the button on NIR scanner. Wait until the light of button stop blinking.",
       important_notes: "Important notes:",
       note1: "1. Scanning will last around 1 minute",
-      note2:
-        "2. Make sure NIR scanner is completely placed on the product when scanning",
+      note2: "2. Make sure NIR scanner is completely placed on the product when scanning",
     },
     step_four: {
       title: "➃ COMPARE",
@@ -47,10 +46,16 @@ export default {
     nycx_agarwood_a: "AgarwoodPowder_NYCX_A",
     nycx_agarwood_b: "AgarwoodPowder_NYCX_B",
     nycx_agarwood_c: "AgarwoodPowder_NYCX_C",
+    caterpillar_fungus: "Caterpillar fungus",
+    btrt_fungus: "Beijing_Tong_Ren_Tang",
+    mpl_fungus: "Ma_Pak_Leung",
+    eys_fungus: "Eu_Yan_Sang",
+    bezoar: "Bezoar",
+    eys_bezoar_capsule: "Eu_Yan_Sang_capsule",
+    eys_bezoar_cs4: "Eu_Yan_Sang_cs4",
   },
   comparing: {
-    content:
-      "Comparing with the standard spectrum fingerprint in the blockchain",
+    content: "Comparing with the standard spectrum fingerprint in the blockchain",
   },
   result: {
     title: "Result",

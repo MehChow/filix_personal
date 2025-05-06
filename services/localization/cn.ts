@@ -29,8 +29,7 @@ export default {
     },
     step_three: {
       title: "➂ 掃描",
-      description:
-        "筆尖貼近產品後，按下筆上的掃描按扭，等待指示燈熄滅完成掃描。",
+      description: "筆尖貼近產品後，按下筆上的掃描按扭，等待指示燈熄滅完成掃描。",
       important_notes: "注意事項：",
       note1: "1. 掃描過程需時約一分鐘",
       note2: "2. 筆尖需全程貼近產品",
@@ -46,6 +45,13 @@ export default {
     nycx_agarwood_a: "A級南洋沉香粉",
     nycx_agarwood_b: "B級南洋沉香粉",
     nycx_agarwood_c: "C級南洋沉香粉",
+    caterpillar_fungus: "冬蟲夏草",
+    btrt_fungus: "北京同仁堂",
+    mpl_fungus: "馬百良",
+    eys_fungus: "余仁生",
+    bezoar: "牛黃",
+    eys_bezoar_capsule: "余仁生膠囊",
+    eys_bezoar_cs4: "余仁生cs4",
   },
   comparing: {
     content: "正在對比樣本光譜和區塊鏈中的光譜數據...",
