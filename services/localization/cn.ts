@@ -45,13 +45,15 @@ export default {
     nycx_agarwood_a: "A級南洋沉香粉",
     nycx_agarwood_b: "B級南洋沉香粉",
     nycx_agarwood_c: "C級南洋沉香粉",
+
     caterpillar_fungus: "冬蟲夏草",
-    btrt_fungus: "北京同仁堂",
-    mpl_fungus: "馬百良",
-    eys_fungus: "余仁生",
+    eys_cordyceps_mycelia_cs4_fungus: "余仁生全效Cs-4蟲草菌絲體膠囊",
+    eys_wild_cordyceps_fungus: "余仁生野生冬蟲夏草膠囊",
+
     bezoar: "牛黃",
-    eys_bezoar_capsule: "余仁生膠囊",
-    eys_bezoar_cs4: "余仁生cs4",
+    eys_bezoar: "余仁生",
+    btrt_bezoar: "北京同仁堂",
+    mpl_bezoar: "馬百良",
   },
   comparing: {
     content: "正在對比樣本光譜和區塊鏈中的光譜數據...",

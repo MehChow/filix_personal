@@ -1,11 +1,4 @@
-import {
-  createContext,
-  ReactNode,
-  FC,
-  useState,
-  useEffect,
-  useContext,
-} from "react";
+import { createContext, ReactNode, FC, useState, useEffect, useContext } from "react";
 import { useAsyncStorage } from "~/hooks/use-async-storage";
 import i18n from "~/services/localization/i18n";
 
@@ -16,9 +9,7 @@ interface LanguageContextProps {
   changeLanguage: (lang: string) => Promise<void>;
 }
 
-const LanguageContext = createContext<LanguageContextProps | undefined>(
-  undefined
-);
+const LanguageContext = createContext<LanguageContextProps | undefined>(undefined);
 
 export const LanguageProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [locale, setLocale] = useState<string>(i18n.locale);

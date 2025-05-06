@@ -13,9 +13,7 @@
       "android": {
         "buildType": "apk"
       },
-      "env": {
-        "EXPO_PUBLIC_BASEURL": "EXPO_PUBLIC_BASEURL"
-      }
+      "environment": "preview"
     },
     "production": {
       "autoIncrement": true

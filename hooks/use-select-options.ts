@@ -32,26 +32,26 @@ export const useSelectOptions = () => {
       ],
       caterpillar_fungus: [
         {
-          label: translate.t("selectOptions.btrt_fungus"),
-          value: "btrt_fungus",
+          label: translate.t("selectOptions.eys_cordyceps_mycelia_cs4_fungus"),
+          value: "eys_cordyceps_mycelia_cs4_fungus",
         },
         {
-          label: translate.t("selectOptions.mpl_fungus"),
-          value: "mpl_fungus",
-        },
-        {
-          label: translate.t("selectOptions.eys_fungus"),
-          value: "eys_fungus",
+          label: translate.t("selectOptions.eys_wild_cordyceps_fungus"),
+          value: "eys_wild_cordyceps_fungus",
         },
       ],
       bezoar: [
         {
-          label: translate.t("selectOptions.eys_bezoar_capsule"),
-          value: "eys_bezoar_capsule",
+          label: translate.t("selectOptions.eys_bezoar"),
+          value: "eys_bezoar",
         },
         {
-          label: translate.t("selectOptions.eys_bezoar_cs4"),
-          value: "eys_bezoar_cs4",
+          label: translate.t("selectOptions.btrt_bezoar"),
+          value: "btrt_bezoar",
+        },
+        {
+          label: translate.t("selectOptions.mpl_bezoar"),
+          value: "mpl_bezoar",
         },
       ],
     }),

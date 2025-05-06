@@ -46,13 +46,15 @@ export default {
     nycx_agarwood_a: "AgarwoodPowder_NYCX_A",
     nycx_agarwood_b: "AgarwoodPowder_NYCX_B",
     nycx_agarwood_c: "AgarwoodPowder_NYCX_C",
+
     caterpillar_fungus: "Caterpillar fungus",
-    btrt_fungus: "Beijing_Tong_Ren_Tang",
-    mpl_fungus: "Ma_Pak_Leung",
-    eys_fungus: "Eu_Yan_Sang",
+    eys_cordyceps_mycelia_cs4_fungus: "EuYanSang_CordycepsMyceliaCs4_capsule",
+    eys_wild_cordyceps_fungus: "EuYanSang_WildCordyceps_capsule",
+
     bezoar: "Bezoar",
-    eys_bezoar_capsule: "Eu_Yan_Sang_capsule",
-    eys_bezoar_cs4: "Eu_Yan_Sang_cs4",
+    eys_bezoar: "EuYanSang",
+    btrt_bezoar: "BeijingTongRenTang",
+    mpl_bezoar: "MaPakLeung",
   },
   comparing: {
     content: "Comparing with the standard spectrum fingerprint in the blockchain",

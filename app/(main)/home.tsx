@@ -3,7 +3,6 @@ import { useRouter } from "expo-router";
 import { SelectSchema, selectSchema } from "~/schema/select-schema";
 import { useSelectStore } from "~/store/select-store";
 import { useNetInfo } from "@react-native-community/netinfo";
-import useConnectNIR from "~/hooks/use-connect-nir";
 import useCheckScanned from "~/hooks/use-check-scanned";
 import StepSeparator from "~/components/home/steps/Step-separator";
 import StepTwo from "~/components/home/steps/Step-two";

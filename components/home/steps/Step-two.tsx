@@ -15,7 +15,8 @@ import { getWindowWidth } from "~/utils/helper";
 
 import translate from "~/services/localization/i18n";
 import { useSelectOptions } from "~/hooks/use-select-options";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { useLanguage } from "~/context/language-context";
 
 // Select dropdown box insets
 const windowWidth = getWindowWidth();
@@ -28,7 +29,8 @@ interface StepTwoProps {
 
 const StepTwo = ({ control, errors }: StepTwoProps) => {
   const { categoryOptions, productOptions } = useSelectOptions();
-  const { setValue } = useFormContext();
+  const { setValue, getValues } = useFormContext();
+  const { locale } = useLanguage();
 
   // Watch the category field to get its current value
   const selectedCategory = useWatch({
@@ -36,15 +38,53 @@ const StepTwo = ({ control, errors }: StepTwoProps) => {
     name: "category",
   });
 
+  // Store previous category value to detect user-driven changes
+  const prevCategoryValueRef = useRef<string | undefined>(undefined);
+
   // Dynamically determine product options based on selected category
   const filteredProductOptions = selectedCategory?.value
     ? productOptions[selectedCategory.value as keyof typeof productOptions] || []
     : [...productOptions.agarwood, ...productOptions.caterpillar_fungus, ...productOptions.bezoar];
 
-  // Reset productName when selectedCategory changes
+  // Reset productName when the user changes the category (not during language update)
   useEffect(() => {
-    setValue("productName", undefined);
+    if (
+      selectedCategory?.value &&
+      prevCategoryValueRef.current !== undefined &&
+      selectedCategory.value !== prevCategoryValueRef.current
+    ) {
+      setValue("productName", undefined);
+    }
+    prevCategoryValueRef.current = selectedCategory?.value;
   }, [selectedCategory, setValue]);
+
+  // Update category and productName labels when language changes
+  useEffect(() => {
+    const currentCategory = getValues("category");
+    const currentProductName = getValues("productName");
+
+    // Update category label
+    if (currentCategory?.value) {
+      const newCategoryOption = categoryOptions.find(
+        (option) => option.value === currentCategory.value
+      );
+      if (newCategoryOption) {
+        setValue("category", newCategoryOption, { shouldValidate: true });
+      }
+    }
+
+    // Update productName label
+    if (currentProductName?.value && currentCategory?.value) {
+      const currentProductOptions =
+        productOptions[currentCategory.value as keyof typeof productOptions] || [];
+      const newProductOption = currentProductOptions.find(
+        (option) => option.value === currentProductName.value
+      );
+      if (newProductOption) {
+        setValue("productName", newProductOption, { shouldValidate: true });
+      }
+    }
+  }, [locale, categoryOptions, productOptions, setValue, getValues]);
 
   return (
     <View style={styles.stepContainer}>
@@ -88,19 +128,22 @@ const StepTwo = ({ control, errors }: StepTwoProps) => {
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
             <Select
-              key={selectedCategory?.value || "default"}
+              key={`${selectedCategory?.value || "default"}-${locale}`}
               onValueChange={(option) => onChange(option)} // Pass the entire option object
               value={value}
             >
               <DMSans500 style={styles.selectLabel}>
                 {translate.t("home.step_two.product_label")}
               </DMSans500>
-              <SelectTrigger className="w-full ">
+
+              <SelectTrigger className="w-full">
                 <SelectValue
                   placeholder={translate.t("home.step_two.please_select")}
                   style={styles.placeholderText}
+                  className="max-w-[90%]"
                 />
               </SelectTrigger>
+
               <SelectContent insets={{ left: selectInset, right: selectInset }} className="w-full">
                 <SelectGroup>
                   {filteredProductOptions.map((option) => (
