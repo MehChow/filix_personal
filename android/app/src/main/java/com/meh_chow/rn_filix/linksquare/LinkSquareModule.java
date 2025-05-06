@@ -20,10 +20,6 @@ public class LinkSquareModule implements LinkSquareAPI.LinkSquareAPIListener {
 
     private LinkSquareCallback callback;
 
-    static {
-        System.loadLibrary("LinkSquareAPI");
-    }
-
     private LinkSquareModule() {
         linkSquareAPI = LinkSquareAPI.getInstance();
     }
@@ -39,26 +35,47 @@ public class LinkSquareModule implements LinkSquareAPI.LinkSquareAPIListener {
         this.callback = callback;
     }
 
-    public void initialize() {
-        linkSquareAPI.Initialize();
+    public boolean initialize() {
+        int result = linkSquareAPI.Initialize();
+        if (result != 1) {
+            String error = linkSquareAPI.GetLSError();
+            if (error == null || error.isEmpty()) {
+                error = "Initialization failed";
+            }
+            if (callback != null) callback.onError("FKU");
+            return false;
+        }
         linkSquareAPI.SetEventListener(this);
+        if (callback != null) callback.onEvent("INITIALIZED", "Initialization successful");
+        return true;
     }
 
-    public void connect(String ip, int port) {
-        new Thread(() -> {
-            int result = linkSquareAPI.Connect(ip, port);
-            if (result != LinkSquareAPI.RET_OK) {
-                if (callback != null) callback.onError(linkSquareAPI.GetLSError());
-            } else {
-                LinkSquareAPI.LSDeviceInfo deviceInfo = linkSquareAPI.GetDeviceInfo();
-                String message = String.format(
-                    "Alias: %s\nSW Ver: %s\nHW Ver: %s\nDeviceID: %s\nOPMode: %s",
-                    deviceInfo.Alias, deviceInfo.SWVersion, deviceInfo.HWVersion,
-                    deviceInfo.DeviceID, deviceInfo.OPMode
-                );
-                if (callback != null) callback.onEvent("CONNECTED", message);
+    public boolean connect(String ip, int port) {
+        int result = linkSquareAPI.Connect(ip, port);
+        if (result != LinkSquareAPI.RET_OK) {
+            String error = linkSquareAPI.GetLSError();
+            if (error == null || error.isEmpty()) {
+                error = "Connection failed";
             }
-        }).start();
+            if (callback != null) callback.onError("FKU2222");
+            return false;
+        }
+        if (!linkSquareAPI.IsConnected()) {
+            if (callback != null) callback.onError("Connection unstable");
+            return false;
+        }
+        LinkSquareAPI.LSDeviceInfo deviceInfo = linkSquareAPI.GetDeviceInfo();
+        if (deviceInfo == null) {
+            if (callback != null) callback.onError("Failed to get device info");
+            return false;
+        }
+        String message = String.format(
+            "Alias: %s\nSW Ver: %s\nHW Ver: %s\nDeviceID: %s\nOPMode: %s",
+            deviceInfo.Alias, deviceInfo.SWVersion, deviceInfo.HWVersion,
+            deviceInfo.DeviceID, deviceInfo.OPMode
+        );
+        if (callback != null) callback.onEvent("CONNECTED", message);
+        return true;
     }
 
     public boolean isConnected() {

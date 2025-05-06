@@ -14,7 +14,7 @@ import Button from "~/components/Button";
 import Footer from "~/components/Footer";
 import HomeHeader from "~/components/home/header";
 
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import LanguageToggle from "~/components/language-toggle";
 import { useLanguage } from "~/context/language-context";
@@ -30,14 +30,27 @@ const HomePage = () => {
 
   useLanguage();
 
-  // NIR device connection status
-  const { NIRDeviceConnected } = useConnectNIR();
-
   // Scanned data status
   const { checkDataStatus } = useCheckScanned();
 
   // Selection of category and product
   const { setSelectOption } = useSelectStore();
+
+  // Form for handling selection
+  const formMethods = useForm<SelectSchema>({
+    resolver: zodResolver(selectSchema),
+    defaultValues: {
+      category: undefined,
+      productName: undefined,
+    },
+  });
+
+  const {
+    getValues,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = formMethods;
 
   const handleConfirm = () => {
     // Prepare selected data, stored it globally in Zustand store
@@ -53,10 +66,7 @@ const HomePage = () => {
     // Check Internet connectivity
     const internetReachable = netInfo.isInternetReachable;
     // When developing locally, this can bypass the Internet connection check
-    if (
-      !internetReachable &&
-      process.env.EXPO_PUBLIC_BASEURL !== "http://localhost:8080"
-    ) {
+    if (!internetReachable && process.env.EXPO_PUBLIC_BASEURL !== "http://localhost:8080") {
       ToastAndroid.show(translate.t("alerts.no_internet"), ToastAndroid.LONG);
       return;
     }
@@ -70,51 +80,40 @@ const HomePage = () => {
     }
   };
 
-  // Form for handling selection
-  const {
-    getValues,
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<SelectSchema>({
-    resolver: zodResolver(selectSchema),
-  });
-
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}
-      showsVerticalScrollIndicator={false}
-    >
-      <LanguageToggle />
-      {/* Product header */}
-      <HomeHeader />
+    <FormProvider {...formMethods}>
+      <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+        <LanguageToggle />
+        {/* Product header */}
+        <HomeHeader />
 
-      {/* Steps */}
-      <View style={styles.stepsContainer}>
-        {/* Step 1: CONNECT */}
-        <StepOne NIRDeviceConnected={NIRDeviceConnected} />
-        <StepSeparator />
+        {/* Steps */}
+        <View style={styles.stepsContainer}>
+          {/* Step 1: CONNECT */}
+          <StepOne />
+          <StepSeparator />
 
-        {/* Step 2: PRODUCT */}
-        <StepTwo control={control} errors={errors} />
-        <StepSeparator />
+          {/* Step 2: PRODUCT */}
+          <StepTwo control={control} errors={errors} />
+          <StepSeparator />
 
-        {/* Step 3: SCAN */}
-        <StepThree />
-        <StepSeparator />
+          {/* Step 3: SCAN */}
+          <StepThree />
+          <StepSeparator />
 
-        {/* Step 4: COMPARE */}
-        <StepFour />
-      </View>
+          {/* Step 4: COMPARE */}
+          <StepFour />
+        </View>
 
-      <Button
-        buttonText={translate.t("home.step_four.confirm")}
-        width="100%"
-        onPress={handleSubmit(handleConfirm)}
-      />
+        <Button
+          buttonText={translate.t("home.step_four.confirm")}
+          width="100%"
+          onPress={handleSubmit(handleConfirm)}
+        />
 
-      <Footer />
-    </ScrollView>
+        <Footer />
+      </ScrollView>
+    </FormProvider>
   );
 };
 

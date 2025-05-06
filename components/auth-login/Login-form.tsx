@@ -83,9 +83,7 @@ const LoginForm = () => {
       {/* Confirm Button */}
       <Button
         buttonText={
-          mutation.isPending
-            ? translate.t("login.logging_in")
-            : translate.t("login.confirm")
+          mutation.isPending ? translate.t("login.logging_in") : translate.t("login.confirm")
         }
         width="100%"
         onPress={handleSubmit(handleLogin)}

@@ -16,9 +16,10 @@ export default {
     step_one: {
       title: "➀ CONNECT",
       description:
-        "Confirm mobile phone is connected to LinkSquareNIR Wi-Fi. If NIR device is not automatically connected, please restart the app and try again.",
+        "After confirming your device is connected to LinkSquareNIR Wi-Fi, tap the Connect button below to initiate the connection between your device and the NIR device.",
+      connecting: "Connecting...",
       connected: "NIR DEVICE CONNECTED",
-      notConnected: "NIR DEVICE NOT CONNECTED",
+      notConnected: "CONNECT",
     },
     step_two: {
       title: "➁ PRODUCT",
@@ -32,8 +33,7 @@ export default {
         "Place the NIR scanner on the product and press the button on NIR scanner. Wait until the light of button stop blinking.",
       important_notes: "Important notes:",
       note1: "1. Scanning will last around 1 minute",
-      note2:
-        "2. Make sure NIR scanner is completely placed on the product when scanning",
+      note2: "2. Make sure NIR scanner is completely placed on the product when scanning",
     },
     step_four: {
       title: "➃ COMPARE",
@@ -46,10 +46,16 @@ export default {
     nycx_agarwood_a: "AgarwoodPowder_NYCX_A",
     nycx_agarwood_b: "AgarwoodPowder_NYCX_B",
     nycx_agarwood_c: "AgarwoodPowder_NYCX_C",
+    caterpillar_fungus: "Caterpillar fungus",
+    btrt_fungus: "Beijing_Tong_Ren_Tang",
+    mpl_fungus: "Ma_Pak_Leung",
+    eys_fungus: "Eu_Yan_Sang",
+    bezoar: "Bezoar",
+    eys_bezoar_capsule: "Eu_Yan_Sang_capsule",
+    eys_bezoar_cs4: "Eu_Yan_Sang_cs4",
   },
   comparing: {
-    content:
-      "Comparing with the standard spectrum fingerprint in the blockchain",
+    content: "Comparing with the standard spectrum fingerprint in the blockchain",
   },
   result: {
     title: "Result",
@@ -73,6 +79,7 @@ export default {
     not_scanned: "Please scan the data first",
     data_corrupted: "Data corrupted. Please scan the data again",
     no_internet: "Please connect to the Internet first",
+    not_ls_wifi: "Please connect to the NIR device's LS Wi-Fi first",
     unknown: "Something went wrong, please try again",
     scanned_successfully: "Data scanned successfully!",
   },

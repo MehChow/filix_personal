@@ -12,6 +12,7 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Promise;
 
 public class LinkSquareReactModule extends ReactContextBaseJavaModule {
 
@@ -20,6 +21,7 @@ public class LinkSquareReactModule extends ReactContextBaseJavaModule {
     public LinkSquareReactModule(ReactApplicationContext reactContext) {
         super(reactContext);
         linkSquareModule = LinkSquareModule.getInstance();
+        
         linkSquareModule.setCallback(new LinkSquareModule.LinkSquareCallback() {
             @Override
             public void onEvent(String eventType, String message) {
@@ -64,18 +66,31 @@ public class LinkSquareReactModule extends ReactContextBaseJavaModule {
 
     // Expose methods to React Native
     @ReactMethod
-    public void initialize() {
-        linkSquareModule.initialize();
+    public void initialize(Promise promise) {
+        try {
+            boolean success = linkSquareModule.initialize();
+            if (success) {
+                promise.resolve(null);
+            } else {
+                promise.reject("INIT_ERROR", "Initialization failed");
+            }
+        } catch (Exception e) {
+            promise.reject("INIT_ERROR", e.getMessage());
+        }
     }
 
     @ReactMethod
-    public void connect(String ip, int port) {
-        linkSquareModule.connect(ip, port);
-    }
-
-    @ReactMethod
-    public boolean isConnected() {
-        return linkSquareModule.isConnected();
+    public void connect(String ip, int port, Promise promise) {
+        try {
+            boolean success = linkSquareModule.connect(ip, port);
+            if (success) {
+                promise.resolve(null);
+            } else {
+                promise.reject("CONNECT_ERROR", "Connection failed");
+            }
+        } catch (Exception e) {
+            promise.reject("CONNECT_ERROR", e.getMessage());
+        }
     }
 
     @ReactMethod
@@ -84,7 +99,22 @@ public class LinkSquareReactModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void close() {
-        linkSquareModule.close();
+    public void close(Promise promise) {
+        try {
+            linkSquareModule.close();
+            promise.resolve(null);
+        } catch (Exception e) {
+            promise.reject("CLOSE_ERROR", e.getMessage());
+        }
+    }
+
+    @ReactMethod
+    public void isConnected(Promise promise) {
+        try {
+            boolean connected = linkSquareModule.isConnected();
+            promise.resolve(connected);
+        } catch (Exception e) {
+            promise.reject("IS_CONNECTED_ERROR", e.getMessage());
+        }
     }
 }

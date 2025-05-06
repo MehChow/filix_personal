@@ -16,9 +16,10 @@ export default {
     step_one: {
       title: "➀ 連接",
       description:
-        "確認手機已成功連接 LinkSquareNIR Wi-Fi. 如果未自動連接，請重新啟動應用程式並重試。",
+        "在確認您的設備已連接到 LinkSquareNIR Wi-Fi 後，點擊下方的「連接」按鈕，以啟動您的設備與 NIR 設備之間的連接。",
+      connecting: "連接中...",
       connected: "NIR 裝置已連接",
-      notConnected: "NIR 裝置未連接",
+      notConnected: "連接",
     },
     step_two: {
       title: "➁ 選擇產品",
@@ -28,8 +29,7 @@ export default {
     },
     step_three: {
       title: "➂ 掃描",
-      description:
-        "筆尖貼近產品後，按下筆上的掃描按扭，等待指示燈熄滅完成掃描。",
+      description: "筆尖貼近產品後，按下筆上的掃描按扭，等待指示燈熄滅完成掃描。",
       important_notes: "注意事項：",
       note1: "1. 掃描過程需時約一分鐘",
       note2: "2. 筆尖需全程貼近產品",
@@ -45,6 +45,13 @@ export default {
     nycx_agarwood_a: "A級南洋沉香粉",
     nycx_agarwood_b: "B級南洋沉香粉",
     nycx_agarwood_c: "C級南洋沉香粉",
+    caterpillar_fungus: "冬蟲夏草",
+    btrt_fungus: "北京同仁堂",
+    mpl_fungus: "馬百良",
+    eys_fungus: "余仁生",
+    bezoar: "牛黃",
+    eys_bezoar_capsule: "余仁生膠囊",
+    eys_bezoar_cs4: "余仁生cs4",
   },
   comparing: {
     content: "正在對比樣本光譜和區塊鏈中的光譜數據...",
@@ -71,6 +78,7 @@ export default {
     not_scanned: "請先掃描數據",
     data_corrupted: "數據損壞，請重新掃描",
     no_internet: "請先連接網絡",
+    not_ls_wifi: "請先連接至NIR設備的LinkSquareNIR Wi-Fi",
     unknown: "發生未知錯誤，請稍後再試",
     scanned_successfully: "數據掃描成功！",
   },

@@ -13,6 +13,7 @@ const IndexPage = () => {
   const { fontsLoaded } = useLoadFonts();
 
   useEffect(() => {
+    console.log(process.env.EXPO_PUBLIC_BASEURL);
     if (fontsLoaded) {
       router.replace("/(main)/home");
 
