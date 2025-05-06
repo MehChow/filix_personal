@@ -15,6 +15,7 @@ import { getWindowWidth } from "~/utils/helper";
 
 import translate from "~/services/localization/i18n";
 import { useSelectOptions } from "~/hooks/use-select-options";
+import { useEffect } from "react";
 
 // Select dropdown box insets
 const windowWidth = getWindowWidth();
@@ -27,6 +28,7 @@ interface StepTwoProps {
 
 const StepTwo = ({ control, errors }: StepTwoProps) => {
   const { categoryOptions, productOptions } = useSelectOptions();
+  const { setValue } = useFormContext();
 
   // Watch the category field to get its current value
   const selectedCategory = useWatch({
@@ -38,6 +40,11 @@ const StepTwo = ({ control, errors }: StepTwoProps) => {
   const filteredProductOptions = selectedCategory?.value
     ? productOptions[selectedCategory.value as keyof typeof productOptions] || []
     : [...productOptions.agarwood, ...productOptions.caterpillar_fungus, ...productOptions.bezoar];
+
+  // Reset productName when selectedCategory changes
+  useEffect(() => {
+    setValue("productName", undefined);
+  }, [selectedCategory, setValue]);
 
   return (
     <View style={styles.stepContainer}>
@@ -81,6 +88,7 @@ const StepTwo = ({ control, errors }: StepTwoProps) => {
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
             <Select
+              key={selectedCategory?.value || "default"}
               onValueChange={(option) => onChange(option)} // Pass the entire option object
               value={value}
             >

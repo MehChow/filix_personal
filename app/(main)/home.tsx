@@ -30,8 +30,6 @@ const HomePage = () => {
 
   useLanguage();
 
-  // NIR device connection status
-
   // Scanned data status
   const { checkDataStatus } = useCheckScanned();
 

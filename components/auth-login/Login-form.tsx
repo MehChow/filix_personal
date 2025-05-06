@@ -53,7 +53,6 @@ const LoginForm = () => {
         }
 
         // Set user info in global store for accessing token before redirecting to comparing page
-        console.log(data.data);
         setUserInfo(data.data);
         router.replace("/(main)/comparing");
       }
@@ -84,9 +83,7 @@ const LoginForm = () => {
       {/* Confirm Button */}
       <Button
         buttonText={
-          mutation.isPending
-            ? translate.t("login.logging_in")
-            : translate.t("login.confirm")
+          mutation.isPending ? translate.t("login.logging_in") : translate.t("login.confirm")
         }
         width="100%"
         onPress={handleSubmit(handleLogin)}
