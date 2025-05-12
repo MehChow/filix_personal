@@ -1,9 +1,7 @@
 import {
   ActivityIndicator,
   NativeEventEmitter,
-  NativeModules,
   StyleSheet,
-  ToastAndroid,
   View,
 } from "react-native";
 import { DMSans500, DMSans700 } from "~/utils/dmsans-text";
@@ -14,17 +12,17 @@ import { Button } from "~/components/ui/button";
 
 import translate from "~/services/localization/i18n";
 
-import NetInfo from "@react-native-community/netinfo";
-import { useLSWifiConnectionStore } from "~/store/ls-wifi-connection-store";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import useConnectNIR from "~/hooks/use-connect-nir";
 
 const StepOne = () => {
-  const { LinkSquareModule } = NativeModules;
-  const { NIRDeviceConnected, setNIRDeviceConnected } =
-    useLSWifiConnectionStore();
-  const [isConnecting, setIsConnecting] = useState(false);
-
   const eventEmitter = new NativeEventEmitter();
+  const {
+    setNIRDeviceConnected,
+    NIRDeviceConnected,
+    isConnecting,
+    handleConnect,
+  } = useConnectNIR();
 
   useEffect(() => {
     const connectListener = eventEmitter.addListener("CONNECTED", (message) => {
@@ -45,31 +43,6 @@ const StepOne = () => {
       errorEventListener.remove();
     };
   }, [setNIRDeviceConnected]);
-
-  const handleConnect = async () => {
-    setIsConnecting(true);
-    try {
-      const state = await NetInfo.fetch("wifi");
-      if (state.type === "wifi" && state.isConnected) {
-        const wifiName = state.details.ssid || null;
-        const isLSWiFi = wifiName?.startsWith("LS") || false;
-        if (wifiName && isLSWiFi) {
-          await LinkSquareModule.initialize();
-          await LinkSquareModule.connect("192.168.1.1", 18630);
-        } else {
-          ToastAndroid.show(
-            translate.t("alerts.not_ls_wifi"),
-            ToastAndroid.LONG
-          );
-        }
-      } else {
-        ToastAndroid.show(translate.t("alerts.not_ls_wifi"), ToastAndroid.LONG);
-      }
-    } catch (error: any) {
-      setNIRDeviceConnected(false);
-    }
-    setIsConnecting(false);
-  };
 
   const buttonBgColor = NIRDeviceConnected ? "bg-[#55BB7F]" : "bg-transparent";
   const buttonBorder = NIRDeviceConnected ? "" : "border-[2px]";
