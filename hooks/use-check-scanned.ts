@@ -19,10 +19,7 @@ const useCheckScanned = () => {
     // Somehow the scanned data is malformed
     // Haven't occurred before, but for safety check
     if (pixel_array.length !== 600) {
-      ToastAndroid.show(
-        translate.t("alerts.data_corrupted"),
-        ToastAndroid.SHORT
-      );
+      ToastAndroid.show(translate.t("alerts.data_corrupted"), ToastAndroid.SHORT);
       return false;
     }
 
