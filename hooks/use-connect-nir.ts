@@ -1,6 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLSWifiConnectionStore } from "~/store/ls-wifi-connection-store";
-import { NativeModules } from "react-native";
+import { NativeModules, ToastAndroid } from "react-native";
+import NetInfo from "@react-native-community/netinfo";
+
+import translate from "~/services/localization/i18n";
 
 /**
  * A custom hook to handle the NIR device connection, based on the LS WiFi connection status.
@@ -13,19 +16,42 @@ import { NativeModules } from "react-native";
 const useConnectNIR = () => {
   const { LinkSquareModule } = NativeModules;
 
-  const { isConnected, NIRDeviceConnected, setNIRDeviceConnected } =
+  const { NIRDeviceConnected, setNIRDeviceConnected } =
     useLSWifiConnectionStore();
 
-  // Initialize LinkSquareModule and connect to NIR device
-  useEffect(() => {
-    if (isConnected && !NIRDeviceConnected) {
-      LinkSquareModule.initialize();
-      LinkSquareModule.connect("192.168.1.1", 18630);
-      setNIRDeviceConnected(true);
-    }
-  }, [isConnected, NIRDeviceConnected]);
+  const [isConnecting, setIsConnecting] = useState(false);
 
-  return { NIRDeviceConnected };
+  const handleConnect = async () => {
+    setIsConnecting(true);
+    try {
+      const state = await NetInfo.fetch("wifi");
+      if (state.type === "wifi" && state.isConnected) {
+        const wifiName = state.details.ssid || null;
+        const isLSWiFi = wifiName?.startsWith("LS") || false;
+        if (wifiName && isLSWiFi) {
+          await LinkSquareModule.initialize();
+          await LinkSquareModule.connect("192.168.1.1", 18630);
+        } else {
+          ToastAndroid.show(
+            translate.t("alerts.not_ls_wifi"),
+            ToastAndroid.LONG
+          );
+        }
+      } else {
+        ToastAndroid.show(translate.t("alerts.not_ls_wifi"), ToastAndroid.LONG);
+      }
+    } catch (error: any) {
+      setNIRDeviceConnected(false);
+    }
+    setIsConnecting(false);
+  };
+
+  return {
+    isConnecting,
+    NIRDeviceConnected,
+    setNIRDeviceConnected,
+    handleConnect,
+  };
 };
 
 export default useConnectNIR;
