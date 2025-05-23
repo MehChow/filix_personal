@@ -1,6 +1,7 @@
 import {
   ActivityIndicator,
   NativeEventEmitter,
+  NativeModules,
   StyleSheet,
   View,
 } from "react-native";
@@ -14,8 +15,10 @@ import translate from "~/services/localization/i18n";
 
 import { useEffect } from "react";
 import useConnectNIR from "~/hooks/use-connect-nir";
+import useScanIP from "~/hooks/use-scan-ip";
 
 const StepOne = () => {
+  const { LinkSquareModule } = NativeModules;
   const eventEmitter = new NativeEventEmitter();
   const {
     setNIRDeviceConnected,
@@ -23,12 +26,39 @@ const StepOne = () => {
     isConnecting,
     handleConnect,
   } = useConnectNIR();
+  const { isScanning, services, startScan } = useScanIP();
+
+  const handleSetWLanInfoAndClose = async () => {
+    try {
+      await LinkSquareModule.setWLanInfo("NCH20", "xDNASuperH", 2);
+      await LinkSquareModule.close();
+    } catch (error) {
+      console.error("Error setting WiFi info:", error);
+    }
+  };
+
+  const handleConnectIoT = async () => {
+    try {
+      await LinkSquareModule.initialize();
+      await LinkSquareModule.connect("192.168.50.195", 18630);
+    } catch (error) {
+      console.error("Error connecting to IoT:", error);
+    }
+  };
 
   useEffect(() => {
     const connectListener = eventEmitter.addListener("CONNECTED", (message) => {
       console.log("CONNECTED: ", message);
       setNIRDeviceConnected(true);
     });
+
+    const disconnectListener = eventEmitter.addListener(
+      "DISCONNECTED",
+      (message) => {
+        console.log("DISCONNECTED: ", message);
+        setNIRDeviceConnected(false);
+      }
+    );
 
     const errorEventListener = eventEmitter.addListener(
       "onError",
@@ -38,9 +68,18 @@ const StepOne = () => {
       }
     );
 
+    const wLanInfoSetListener = eventEmitter.addListener(
+      "WLanInfoSet",
+      (message) => {
+        console.log("WLanInfoSet: ", message);
+      }
+    );
+
     return () => {
       connectListener.remove();
       errorEventListener.remove();
+      wLanInfoSetListener.remove();
+      disconnectListener.remove();
     };
   }, [setNIRDeviceConnected]);
 
@@ -77,6 +116,35 @@ const StepOne = () => {
         {NIRDeviceConnected && (
           <FontAwesome6 name="face-smile" size={20} color="white" />
         )}
+      </Button>
+
+      <Button
+        className={`${buttonBgColor} ${buttonBorder} ${buttonBorderColor} flex-row items-center rounded-full gap-2 !h-12 !py-0 opacity-100`}
+        onPress={handleSetWLanInfoAndClose}
+      >
+        <DMSans500 className={`font-bold ${buttonTextColor}`}>
+          Set Info and Close
+        </DMSans500>
+      </Button>
+
+      <Button
+        className={`${buttonBgColor} ${buttonBorder} ${buttonBorderColor} flex-row items-center rounded-full gap-2 !h-12 !py-0 opacity-100`}
+        onPress={startScan}
+        disabled={isScanning}
+      >
+        {isScanning && <ActivityIndicator size="small" color="#55BB7F" />}
+        <DMSans500 className={`font-bold ${buttonTextColor}`}>
+          {isScanning ? "Scanning..." : "Scan for IoT Device"}
+        </DMSans500>
+      </Button>
+
+      <Button
+        className={`${buttonBgColor} ${buttonBorder} ${buttonBorderColor} flex-row items-center rounded-full gap-2 !h-12 !py-0 opacity-100`}
+        onPress={handleConnectIoT}
+      >
+        <DMSans500 className={`font-bold ${buttonTextColor}`}>
+          Connect to IoT
+        </DMSans500>
       </Button>
     </View>
   );

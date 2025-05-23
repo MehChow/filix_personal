@@ -94,6 +94,20 @@ public class LinkSquareReactModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void setWLanInfo(String ssid, String password, int securityOption, Promise promise) {
+        try {
+            boolean success = linkSquareModule.setWLanInfo(ssid, password, (byte) securityOption);
+            if (success) {
+                promise.resolve(null);
+            } else {
+                promise.reject("SET_WLAN_INFO_ERROR", "Failed to set WiFi info");
+            }
+        } catch (Exception e) {
+            promise.reject("SET_WLAN_INFO_ERROR", e.getMessage());
+        }
+    }
+
+    @ReactMethod
     public void scan(int ledFrames, int bulbFrames) {
         linkSquareModule.scan(ledFrames, bulbFrames);
     }

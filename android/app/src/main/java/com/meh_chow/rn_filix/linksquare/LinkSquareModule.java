@@ -42,7 +42,7 @@ public class LinkSquareModule implements LinkSquareAPI.LinkSquareAPIListener {
             if (error == null || error.isEmpty()) {
                 error = "Initialization failed";
             }
-            if (callback != null) callback.onError("FKU");
+            if (callback != null) callback.onError(error);
             return false;
         }
         linkSquareAPI.SetEventListener(this);
@@ -57,7 +57,7 @@ public class LinkSquareModule implements LinkSquareAPI.LinkSquareAPIListener {
             if (error == null || error.isEmpty()) {
                 error = "Connection failed";
             }
-            if (callback != null) callback.onError("FKU2222");
+            if (callback != null) callback.onError(error);
             return false;
         }
         if (!linkSquareAPI.IsConnected()) {
@@ -80,6 +80,20 @@ public class LinkSquareModule implements LinkSquareAPI.LinkSquareAPIListener {
 
     public boolean isConnected() {
         return linkSquareAPI.IsConnected();
+    }
+
+    public boolean setWLanInfo(String ssid, String password, byte securityOption) {
+        int result = linkSquareAPI.SetWLanInfo(ssid, password, securityOption);
+        if (result != LinkSquareAPI.RET_OK) {
+            String error = linkSquareAPI.GetLSError();
+            if (error == null || error.isEmpty()) {
+                error = "Failed to set WiFi info";
+            }
+            if (callback != null) callback.onError(error);
+            return false;
+        }
+        if (callback != null) callback.onEvent("WLanInfoSet", "WiFi info set successfully");
+        return true;
     }
 
     public void scan(int ledFrames, int bulbFrames) {
